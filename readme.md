@@ -1,15 +1,12 @@
-# Auth Boilerplate
+# Auth Boilerplate for backend
+View `docs/backend.md` for more info about the endpoints
 
-This contains the boiler plate for web/mobile app. 
-* Backend
-* Frontend
+# Features
+* Authentication system
+* RSA encryption for sending data
 
-## Tech stack
-
-** Backend **
-* Postgres
+# Tech Stack
 * Koa
 * NodeJs
+* Postgres
 
-** Frontend **
-* NextJs
