@@ -5,7 +5,7 @@ import { errorCode } from "../errors/errorCode"
 import passwordServiceHelper from "./helper/passwordServiceHelper"
 import rsaServiceHelper from "./helper/rsaServiceHelper"
 
-export default class CryptoService {
+export default class UserService {
     userDb: UserDb = new UserDb()
 
     public async register(name: string, email: string, encryptedPassword: string): Promise<User> {
