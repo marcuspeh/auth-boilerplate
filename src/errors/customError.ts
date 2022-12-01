@@ -1,4 +1,5 @@
 import { errorCode } from "./errorCode"
+import logger from "../middleware/logger"
 
 export default class CustomError extends Error {
     public status: number
@@ -17,5 +18,7 @@ export default class CustomError extends Error {
         } else {
             this.status = 400
         }
+
+        logger.error(`Error ${this.status}: ${this.code} - ${this.info}`)
     }
 }
