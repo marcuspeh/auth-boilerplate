@@ -8,6 +8,6 @@ router.prefix("/api")
 
 // Set up routes
 router.use("/crypto", cryptoRoutes)
-router.use("/user", userRoutes)
+router.use("/auth", userRoutes)
 
 export default router
