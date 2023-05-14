@@ -1,0 +1,304 @@
+{
+	"info": {
+		"_postman_id": "0a7c3de0-2cda-429b-a2b9-7a6d0ddf33ed",
+		"name": "Boilerplate",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15848439"
+	},
+	"item": [
+		{
+			"name": "Server Status",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "apitoken",
+						"value": "{{API_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{API_URL}}/api/serverStatus",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"api",
+						"serverStatus"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Public Key",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "apitoken",
+						"value": "{{API_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{API_URL}}/api/crypto/getPublicKey",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"api",
+						"crypto",
+						"getPublicKey"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Encrypt data (dev only)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "apitoken",
+						"value": "{{API_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"text\": \"Plaintext\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{API_URL}}/api/crypto/encrypt",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"api",
+						"crypto",
+						"encrypt"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Decrpyt data (dev only)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "apitoken",
+						"value": "{{API_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"text\": \"nUqGUJSn6iCrFP4yk8Xk8AADvYSel/zwcNE2KqsvxvK3Unm5EyPD27QmLUkGYzcegysuM1W4Mpq7O+44Sbl8XVCsHCMJrjkJ2ua3eR8dCay9DJ0zVFyDhdTZtP66kGUaJNv1yswfxrjKo2tWg3bzx7pI84GZXl3wh95lx1nX2CE2o9sWrAMEAfSFSnzkx5yEgOPhUNlVO0CQCQdOBgr/6nmAi+k1lis/E2NQHRL+wEYnlZ0taRd84K1jB0174CokgIh8r/AXMUTY+Jq2TVJIZPOJr5YOQYOVh5fcZ6AXqxwha+ASdSRtfG+dR569z1ec90atTzdVGTi4nydtGd50kw==\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{API_URL}}/api/crypto/decrypt",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"api",
+						"crypto",
+						"decrypt"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Hash password (dev only)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "apitoken",
+						"value": "{{API_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"password\": \"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{API_URL}}/api/crypto/hashPassword",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"api",
+						"crypto",
+						"hashPassword"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check password (dev only)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "apitoken",
+						"value": "{{API_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"password\": \"password\",\r\n    \"passwordHash\": \"$2a$10$5cUd9ZCFjBrUA2pBk08t1eWodR58YnMFTGq4ZVUiHEfyJfVOoPWE.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{API_URL}}/api/crypto/checkPassword",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"api",
+						"crypto",
+						"checkPassword"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register new user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "apitoken",
+						"value": "{{API_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"name\",\r\n    \"email\": \"email@gmail.com\",\r\n    \"password\": \"nUqGUJSn6iCrFP4yk8Xk8AADvYSel/zwcNE2KqsvxvK3Unm5EyPD27QmLUkGYzcegysuM1W4Mpq7O+44Sbl8XVCsHCMJrjkJ2ua3eR8dCay9DJ0zVFyDhdTZtP66kGUaJNv1yswfxrjKo2tWg3bzx7pI84GZXl3wh95lx1nX2CE2o9sWrAMEAfSFSnzkx5yEgOPhUNlVO0CQCQdOBgr/6nmAi+k1lis/E2NQHRL+wEYnlZ0taRd84K1jB0174CokgIh8r/AXMUTY+Jq2TVJIZPOJr5YOQYOVh5fcZ6AXqxwha+ASdSRtfG+dR569z1ec90atTzdVGTi4nydtGd50kw==\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{API_URL}}/api/auth/register",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set('TONIC', pm.cookies.get(\"TONIC\"))"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "apitoken",
+						"value": "{{API_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"email@gmail.com\",\r\n    \"password\": \"nUqGUJSn6iCrFP4yk8Xk8AADvYSel/zwcNE2KqsvxvK3Unm5EyPD27QmLUkGYzcegysuM1W4Mpq7O+44Sbl8XVCsHCMJrjkJ2ua3eR8dCay9DJ0zVFyDhdTZtP66kGUaJNv1yswfxrjKo2tWg3bzx7pI84GZXl3wh95lx1nX2CE2o9sWrAMEAfSFSnzkx5yEgOPhUNlVO0CQCQdOBgr/6nmAi+k1lis/E2NQHRL+wEYnlZ0taRd84K1jB0174CokgIh8r/AXMUTY+Jq2TVJIZPOJr5YOQYOVh5fcZ6AXqxwha+ASdSRtfG+dR569z1ec90atTzdVGTi4nydtGd50kw==\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{API_URL}}/api/auth/login",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "apitoken",
+						"value": "{{API_TOKEN}}",
+						"type": "text"
+					},
+					{
+						"key": "TONIC",
+						"value": "{{TONIC}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{API_URL}}/api/auth/logout",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
