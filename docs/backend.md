@@ -5,6 +5,8 @@ For all request, the following is required in the header:
 APITOKEN: "VERY SECRET KEY"
 ```
 
+**Postman collection are available at ```./Boilerplate.postman_collection```**
+
 ## Endpoints
 
 | Endpoints | Method | Access | Description|
