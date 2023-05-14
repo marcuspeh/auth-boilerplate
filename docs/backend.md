@@ -9,6 +9,8 @@ APITOKEN: "VERY SECRET KEY"
 
 | Endpoints | Method | Access | Description|
 | --- | --- | --- | --- |
+| /api/serverStatus | GET | ALL | Pings and check if server is up |
+| |
 | /api/crypto/getPublicKey | GET | ALL | Gets public key to encrypt password |
 | /api/crypto/encrypt | POST | DEV | RSA encrypts a plaintext using public key |
 | /api/crypto/decrypt | POST | DEV | RSA decrypts a ciphertext using private key |
@@ -18,6 +20,26 @@ APITOKEN: "VERY SECRET KEY"
 | /api/user/register | POST | ALL | Registers a new user |
 | /api/user/login | POST | ALL | Logs in a user |
 | /api/user/logout | POST | ALL | Logout a user |
+
+---
+
+## API: /api/serverStatus
+
+### Description: 
+Pings and check if server is up
+
+### Request body:
+None
+
+### Reponse:
+```json
+{
+    "status": "OK"
+}
+```
+
+### Errors: 
+None
 
 ---
 
