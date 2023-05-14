@@ -17,9 +17,9 @@ APITOKEN: "VERY SECRET KEY"
 | /api/crypto/hashPassword | POST | DEV | Hashes a password with salt |
 | /api/crypto/checkPassword | POST | DEV | Checks if a hashed password matches the hash |
 | |
-| /api/user/register | POST | ALL | Registers a new user |
-| /api/user/login | POST | ALL | Logs in a user |
-| /api/user/logout | POST | ALL | Logout a user |
+| /api/auth/register | POST | ALL | Registers a new user |
+| /api/auth/login | POST | ALL | Logs in a user |
+| /api/auth/logout | POST | ALL | Logout a user |
 
 ---
 
@@ -160,7 +160,7 @@ E0300: Invalid password
 
 ---
 
-## API: /api/user/register
+## API: /api/auth/register
 
 ### Description: 
 Registers a new user
@@ -190,7 +190,7 @@ E0302: Email already exists
 
 ---
 
-## API: /api/user/login
+## API: /api/auth/login
 
 ### Description: 
 Logs in a user
@@ -219,7 +219,7 @@ E0300: Invalid credentials
 
 ---
 
-## API: /api/user/logout
+## API: /api/auth/logout
 
 ### Description: 
 Logout a user
