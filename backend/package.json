@@ -1,5 +1,5 @@
 {
-  "name": "Auth Boilerplate",
+  "name": "auth_boilerplate",
   "version": "1.0.0",
   "description": "by Marcus Peh",
   "main": "index.js",
@@ -18,7 +18,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "nodemon": "^3.0.1"
   },
   "dependencies": {
     "@koa/cors": "^4.0.0",
