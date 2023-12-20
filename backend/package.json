@@ -4,6 +4,7 @@
   "description": "by Marcus Peh",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon",
     "lint": "tslint --project tsconfig.json --format stylish",
     "build": "tsc",
     "tsc": "tsc && echo 'tsc-ed'",
@@ -47,13 +48,13 @@
     "pg": "^8.10.0",
     "reflect-metadata": "^0.1.13",
     "ts-node": "^10.9.1",
-    "tslint": "^6.1.3",
+    "tslint": "^5.11.0",
     "tslint-config-airbnb": "^5.11.2",
     "typeorm": "^0.3.16",
     "typescript": "^5.0.4",
     "winston": "^3.8.2"
   },
   "engines": {
-    "node": "16.x"
+    "node": "20.x"
   }
 }

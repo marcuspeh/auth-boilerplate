@@ -25,21 +25,14 @@ class UserController {
     public async login(ctx: Context) {
         const apiDto = await dtoValidator.inputValidate(loginUserDTO, ctx.request.body)
         const user: User = await this.userService.login(apiDto.email, apiDto.password)
-
         const jwtUserToken: string = await this.tokenService.generateUserToken(user)
-        const jwtUserCsrfToken: string = await this.tokenService.generateUserTokenCsrf(user)
 
-        const isDev: boolean = process.env.ENVIRONMENT === 'dev'
         ctx.cookies.set("GIN", jwtUserToken, {
             httpOnly: true,
-            secure: !isDev,
-            sameSite: "strict"
+            secure: process.env.ENVIRONMENT !== 'dev',
+            sameSite: "lax"
         })
-        ctx.cookies.set("TONIC", jwtUserCsrfToken, {
-            httpOnly: false,
-            secure: !isDev,
-            sameSite: "strict"
-        })
+
         ctx.body = {
             user: {
                 name: user.name,
@@ -52,8 +45,6 @@ class UserController {
         const userId = ctx.request.header.userId.toString()
 
         await this.tokenService.invalidateToken(userId, TOKEN_TYPE.USER_TOKEN)
-        await this.tokenService.invalidateToken(userId, TOKEN_TYPE.USER_CSRF_TOKEN)
-
         
         ctx.cookies.set("GIN", undefined)
         ctx.cookies.set("TONIC", undefined)

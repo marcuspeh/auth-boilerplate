@@ -31,4 +31,6 @@ export const errorCode = {
     TOKEN_EXPIRED: "E0300",
     TOKEN_INVALID: "E0301",
     TOKEN_DOES_NOT_EXISTS: "E0302",
+    CSRF_DOES_NOT_EXISTS: "E0303",
+    CSRF_MISMATCH: "E0304",
 }

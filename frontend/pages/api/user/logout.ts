@@ -16,7 +16,6 @@ export default async function handler(
 
     res.setHeader('Set-Cookie', [
       serialize('GIN', "", { path: "/" }),
-      serialize('TONIC', "", { path: "/" }) 
     ])
 
     res.status(200).json(result.data)

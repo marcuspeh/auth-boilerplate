@@ -30,15 +30,24 @@ const validateToken = async (ctx: Context, token: any, tokenType: TOKEN_TYPE) =>
         ctx.request.header.expiryDate = tokenObject.expiryDate.toString()
         
     }
-    
+}
+
+const validateCsrf = (tokenCsrf: any, token: any) => {
+    if (!tokenCsrf) {
+        throw new CustomError(errorCode.CSRF_DOES_NOT_EXISTS)
+    }
+
+    if (tokenCsrf !== token) {
+        throw new CustomError(errorCode.CSRF_MISMATCH)
+    }
 }
 
 const auth = async (ctx: Context, next: any) => {
     const token = ctx.cookies.get("GIN")
     const tokenCsrf = ctx.request.header.tonic
 
+    validateCsrf(tokenCsrf, token)
     await validateToken(ctx, token, TOKEN_TYPE.USER_TOKEN)
-    await validateToken(ctx, tokenCsrf, TOKEN_TYPE.USER_CSRF_TOKEN)
 
     await next()
 }

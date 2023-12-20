@@ -5,11 +5,11 @@ interface jsonObect {
 }
 
 export function getCookie(req: NextApiRequest,): string {
-    return `GIN=${req.cookies.GIN}; TONIC=${req.cookies.TONIC}`
+    return `GIN=${req.cookies.GIN};`
 }
 
 export function getTonic(req: NextApiRequest,): string {
-    return req.cookies.TONIC || "WHAT HAPPEN TO TONIC??"
+    return req.cookies.GIN || "WHAT HAPPEN TO TONIC??"
 }
 
 export function getHeader(req: NextApiRequest): jsonObect {
