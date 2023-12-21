@@ -1,11 +1,11 @@
-import { Context } from "koa"
+import {Context} from 'koa';
 
 class ServerController {
   public async statusCheck(ctx: Context) {
     ctx.body = {
-        status: 'OK'
-    }
+      status: 'OK',
+    };
   }
 }
 
-export default new ServerController()
+export default new ServerController();

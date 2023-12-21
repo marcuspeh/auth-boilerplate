@@ -1,25 +1,25 @@
-import { IsDefined, IsEmail, IsString } from "class-validator"
+import {IsDefined, IsEmail, IsString} from 'class-validator';
 
 export class registerUserDTO {
-    @IsDefined()
-    @IsString()
-    name: string
-    
-    @IsDefined()
-    @IsEmail()
-    email: string
+  @IsDefined()
+  @IsString()
+  name: string;
 
-    @IsDefined()
-    @IsString()
-    password: string
+  @IsDefined()
+  @IsEmail()
+  email: string;
+
+  @IsDefined()
+  @IsString()
+  password: string;
 }
 
 export class loginUserDTO {
-    @IsDefined()
-    @IsEmail()
-    email: string
-    
-    @IsDefined()
-    @IsString()
-    password: string
+  @IsDefined()
+  @IsEmail()
+  email: string;
+
+  @IsDefined()
+  @IsString()
+  password: string;
 }
