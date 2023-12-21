@@ -3,7 +3,7 @@ View `docs/backend.md` for more info about the endpoints
 
 # Features
 * Authentication system
-* RSA encryption for sending data
+* RSA encryption for sending sensitive fdata
 
 # Tech Stack
 * Koa
