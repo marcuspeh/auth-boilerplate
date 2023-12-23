@@ -13,7 +13,7 @@ export default class UserService {
     email: string,
     encryptedPassword: string
   ): Promise<User> {
-    var user: User = await this.userDb.getUserByEmail(email);
+    let user: User = await this.userDb.getUserByEmail(email);
 
     if (user) {
       throw new CustomError(errorCode.EMAIL_EXISTS, 'Email already exists');
@@ -23,7 +23,7 @@ export default class UserService {
     const passwordHash: string =
       await passwordServiceHelper.hashPassword(password);
     user = await this.userDb.createUser(name, email, passwordHash);
-    user.password = undefined;
+    user.password = '';
 
     return user;
   }
@@ -36,10 +36,11 @@ export default class UserService {
         errorCode.CREDENTIALS_INVALID,
         'User with email not found'
       );
+    }
 
     const password: string = await rsaServiceHelper.decrypt(encryptedPassword);
     await passwordServiceHelper.checkPassword(password, user.password);
-    user.password = undefined;
+    user.password = '';
 
     return user;
   }

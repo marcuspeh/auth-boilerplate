@@ -9,7 +9,6 @@ import {
   UpdateDateColumn,
   BeforeUpdate,
   BeforeInsert,
-  Index,
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
@@ -22,7 +21,7 @@ export default class Token {
   id: string;
 
   @IsDefined()
-  @ManyToOne(type => User, {eager: true})
+  @ManyToOne(() => User, {eager: true})
   @JoinColumn()
   user: User;
 
