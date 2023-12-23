@@ -1,5 +1,5 @@
 export interface TodoModel {
-    createAt: string
+    createdAt: string
     id: string
     isDeleted: boolean
     isDone: boolean

@@ -38,7 +38,7 @@ export default class Token {
   expiryDate: Date;
 
   @CreateDateColumn()
-  public createAt: Date;
+  public createdAt: Date;
 
   @UpdateDateColumn()
   public updatedAt: Date;

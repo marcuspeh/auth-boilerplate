@@ -32,7 +32,7 @@ export default class User {
   password: string;
 
   @CreateDateColumn()
-  public createAt: Date;
+  public createdAt: Date;
 
   @UpdateDateColumn()
   public updatedAt: Date;
