@@ -3,6 +3,8 @@ import {dataSource} from '../data-source';
 import Token from '../entity/token';
 import {TOKEN_TYPE} from '../entity/enum/tokenType';
 import moment from 'moment';
+import CustomError from '../errors/customError';
+import {errorCode} from '../errors/errorCode';
 
 export interface ITokenDb {
   createToken: (
@@ -35,12 +37,17 @@ export class TokenDb implements ITokenDb {
   }
 
   public async getToken(tokenId: string): Promise<Token> {
-    const token: Token = await this.tokenRepo
+    const token: Token | null = await this.tokenRepo
       .createQueryBuilder('token')
       .select('token')
       .leftJoinAndSelect('token.user', 'user')
       .where('token.id = :id', {id: tokenId})
       .getOne();
+
+    if (token === null) {
+      throw new CustomError(errorCode.TOKEN_DOES_NOT_EXISTS);
+    }
+
     return token;
   }
 

@@ -7,7 +7,7 @@ class CryptoController {
   private CryptoService: CryptoService = new CryptoService();
 
   public async getPublicKey(ctx: Context) {
-    const publicKey: string = process.env.PUBLIC_KEY;
+    const publicKey: string = process.env.PUBLIC_KEY || '';
 
     ctx.body = {
       publicKey: publicKey,

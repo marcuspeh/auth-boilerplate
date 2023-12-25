@@ -20,7 +20,7 @@ const validateToken = async (
 
   let payload;
   try {
-    payload = jwt.verify(token, process.env.JWT_SECRET);
+    payload = jwt.verify(token, process.env.JWT_SECRET || '');
   } catch (e) {
     throw new CustomError(errorCode.TOKEN_EXPIRED);
   }

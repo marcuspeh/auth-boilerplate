@@ -9,7 +9,7 @@ class JwtServiceHelper {
       expiryDate: token.expiryDate,
     };
 
-    const jwtToken: string = jwt.sign(payload, process.env.JWT_SECRET);
+    const jwtToken: string = jwt.sign(payload, process.env.JWT_SECRET || '');
     return jwtToken;
   }
 }

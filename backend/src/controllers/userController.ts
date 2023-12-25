@@ -56,7 +56,8 @@ class UserController {
   }
 
   public async logout(ctx: Context) {
-    const userId = ctx.request.header.userId.toString();
+    const userId: string =
+      ctx.request?.header?.userId?.toString() || 'unknown user';
 
     await this.tokenService.invalidateToken(userId, TOKEN_TYPE.USER_TOKEN);
 
