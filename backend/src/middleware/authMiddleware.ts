@@ -40,7 +40,7 @@ const validateToken = async (
 };
 
 const validateCsrf = (tokenCsrf: any, token: any) => {
-  if (!tokenCsrf) {
+  if (!tokenCsrf && token) {
     throw new CustomError(errorCode.CSRF_DOES_NOT_EXISTS);
   }
 

@@ -11,21 +11,20 @@ export const ErrorMapping: jsonObect = {
     "E0010": "E0010. Please contact administrator",
     "E0011": "E0011. Please conact administrator",
 
-    /* Todo error code */
-    "E0100": "To do is not found",
-
-    /* Crypto error code */
-    "E0200": "E0200. Please contact administrator.",
+    /* Cypto error code */
+    "E0100": "E0100. Please conact administrator",
 
     /* User error code */
-    "E0300": "Credentials does not match.",
-    "E0301": "Email is invalid.",
-    "E0302": "Email is already registered. Please sign in.",
-    "E0303": "Please use a stronger password.",
-    "E0304": "User not found",
+    "E0200": "Credentials does not match.",
+    "E0201": "Email is invalid.",
+    "E0202": "Email is already registered. Please sign in.",
+    "E0203": "Please use a stronger password.",
+    "E0204": "User not found",
 
     /* Token error code */
-    "E0400": "E0400. Please login again.",
-    "E0401": "E0401. Please login again",
-    "E0402": "E0402. Please login again."
+    'E0300': "Authentication token expired. Please sign in again.",
+    'E0301': "Authentication token invalid. Please sign in again.",
+    'E0302': "Authentication token not present in request. Please try again.",
+    'E0303': "CSRF token not present in request. Please try again.",
+    'E0304': "CSRF token mismatch. Please try again."
 }

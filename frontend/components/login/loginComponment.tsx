@@ -22,7 +22,7 @@ export default function LoginComponment() {
             }}
             >
             <Typography variant="h4" sx={{ fontWeight: '700' }}> 
-                Todo Manager
+                Hello World
             </Typography>
             <LoginForm />
             <Typography variant="body2">

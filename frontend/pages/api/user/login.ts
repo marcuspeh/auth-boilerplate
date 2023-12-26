@@ -12,14 +12,14 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   if (req.method !== 'POST') {
-    return res.status(404)
+    res.status(404)
+    return
   }
   try {
     req.body.password = await encryptPassword(req.body.password)
 
-    const result = await customAxios.post(process.env.BACKEND_URL + "/user/login", req.body)
+    const result = await customAxios.post(process.env.BACKEND_URL + "/auth/login", req.body)
     res.setHeader('Set-Cookie', result.headers['set-cookie'] || "")
-    res.setHeader('X-Frame-Options', 'DENY')
     res.setHeader('Strict-Transport-Security', 'max-age=314360000')
 
     res.status(200).json(result.data)

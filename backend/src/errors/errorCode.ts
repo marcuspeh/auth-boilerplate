@@ -17,7 +17,7 @@ export const errorCode = {
   INVALID_REQUEST_BODY: 'E0010',
   ENTITY_VALIDATION_ERROR: 'E0011',
 
-  /* Crypto error code */
+  /* Cypto error code */
   PASSWORD_HASHING_ERROR: 'E0100',
 
   /* User error code */

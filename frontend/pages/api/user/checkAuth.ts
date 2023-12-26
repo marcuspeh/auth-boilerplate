@@ -2,23 +2,17 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { getHeader } from '../../../apiController/apiUtilities'
 import customAxios from '../../../utilities/customAxios'
 
-type Data = {
-  id: string
-  title: string
-  task: string
-}
-
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse
 ) {
-  if (req.method !== 'PATCH') {
-    return res.status(404)
+  if (req.method !== 'GET') {
+    res.status(404)
+    return
   }
   
   try {
-    const result = await customAxios.patch(process.env.BACKEND_URL + "/todo/update", req.body, {headers: getHeader(req)})
-
+    const result = await customAxios.get(process.env.BACKEND_URL + "/auth/checkAuth", {headers: getHeader(req)})
     res.status(200).json(result.data)
   } catch (err: any) {
     res.status(err.response.status).json(err.response.data)

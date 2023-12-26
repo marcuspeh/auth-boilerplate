@@ -9,7 +9,7 @@ export function getCookie(req: NextApiRequest,): string {
 }
 
 export function getTonic(req: NextApiRequest,): string {
-    return req.cookies.GIN || "WHAT HAPPEN TO TONIC??"
+    return req.cookies.GIN || ''
 }
 
 export function getHeader(req: NextApiRequest): jsonObect {

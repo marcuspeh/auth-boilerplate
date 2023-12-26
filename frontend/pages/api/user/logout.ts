@@ -8,11 +8,12 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method !== 'POST') {
-    return res.status(404)
+    res.status(404)
+    return
   }
   
   try {
-    const result = await customAxios.post(process.env.BACKEND_URL + "/user/logout", {}, {headers: getHeader(req)})
+    const result = await customAxios.post(process.env.BACKEND_URL + "/auth/logout", {}, {headers: getHeader(req)})
 
     res.setHeader('Set-Cookie', [
       serialize('GIN', "", { path: "/" }),

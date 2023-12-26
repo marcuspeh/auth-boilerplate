@@ -9,7 +9,7 @@ import Head from 'next/head'
 function MyApp({ Component, pageProps }: AppProps) {
     return (<>
         <Head>
-            <title>Todo Manager</title>
+            <title>Hello World</title>
         </Head>
     <Component {...pageProps} />
     </>)

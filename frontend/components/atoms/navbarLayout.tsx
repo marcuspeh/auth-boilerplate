@@ -5,8 +5,6 @@ import { Menu, ChevronLeft, ChevronRight, FormatListBulleted, Add, Logout } from
 import { ReactNode, useState } from 'react'
 import { logoutUser } from '../../services/api/userController'
 import Router from 'next/router'
-import TodoCard from '../viewTodo/todoCard'
-import { ViewType } from '../../models/viewType'
 
 const drawerWidth = 240
 
@@ -119,27 +117,11 @@ const NavbarLayout: React.FC<Props> = (props): JSX.Element => {
         >
             <DrawerHeader>
             <IconButton onClick={handleDrawerClose} sx={{ my: 0}}>
-                {theme.direction === 'ltr' ? <><span>Todo Manager</span><ChevronLeft /></> : <ChevronRight />}
+                {theme.direction === 'ltr' ? <><span>Hello world</span><ChevronLeft /></> : <ChevronRight />}
             </IconButton>
             </DrawerHeader>
             <Divider />
             <List>
-              <ListItem key={"View todo"} disablePadding>
-                <ListItemButton href={"/"}>
-                    <ListItemIcon>
-                    <FormatListBulleted />
-                    </ListItemIcon>
-                    <ListItemText primary={"View todo"} />
-                </ListItemButton>
-              </ListItem>
-              <ListItem key={"Create new"} disablePadding>
-                <ListItemButton href={"/new"}>
-                    <ListItemIcon>
-                      <Add />
-                    </ListItemIcon>
-                    <ListItemText primary={"Create New"} />
-                </ListItemButton>
-              </ListItem>
               <ListItem key={"logout"} disablePadding>
                 <ListItemButton onClick={logoutClick}>
                     <ListItemIcon>
