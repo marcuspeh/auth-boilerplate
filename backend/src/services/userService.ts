@@ -13,7 +13,7 @@ export default class UserService {
     email: string,
     encryptedPassword: string
   ): Promise<User> {
-    let user: User = await this.userDb.getUserByEmail(email);
+    let user: User | null = await this.userDb.getUserByEmail(email);
 
     if (user) {
       throw new CustomError(errorCode.EMAIL_EXISTS, 'Email already exists');
@@ -29,7 +29,7 @@ export default class UserService {
   }
 
   public async login(email: string, encryptedPassword: string): Promise<User> {
-    const user: User = await this.userDb.getUserByEmail(email);
+    const user: User | null = await this.userDb.getUserByEmail(email);
 
     if (!user) {
       throw new CustomError(
@@ -46,7 +46,7 @@ export default class UserService {
   }
 
   public async getUser(userId: string): Promise<User> {
-    const user: User = await this.userDb.getUserById(userId);
+    const user: User | null = await this.userDb.getUserById(userId);
 
     if (!user) {
       throw new CustomError(errorCode.USER_NOT_FOUND, 'User not found');

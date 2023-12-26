@@ -1,11 +1,9 @@
 import User from '../entity/user';
 import {dataSource} from '../data-source';
-import CustomError from '../errors/customError';
-import {errorCode} from '../errors/errorCode';
 
 export interface IUserDb {
-  getUserByEmail: (email: string) => Promise<User>;
-  getUserById: (userId: string) => Promise<User>;
+  getUserByEmail: (email: string) => Promise<User | null>;
+  getUserById: (userId: string) => Promise<User | null>;
   createUser: (
     name: string,
     email: string,
@@ -17,28 +15,20 @@ export interface IUserDb {
 export class UserDb implements IUserDb {
   userRepo = dataSource.getRepository(User);
 
-  public async getUserByEmail(email: string): Promise<User> {
+  public async getUserByEmail(email: string): Promise<User | null> {
     const user: User | null = await this.userRepo
       .createQueryBuilder('user')
       .where('user.email = :email', {email: email})
       .getOne();
 
-    if (user === null) {
-      throw new CustomError(errorCode.USER_NOT_FOUND);
-    }
-
     return user;
   }
 
-  public async getUserById(userId: string): Promise<User> {
+  public async getUserById(userId: string): Promise<User | null> {
     const user: User | null = await this.userRepo
       .createQueryBuilder('user')
       .where('user.id = :id', {id: userId})
       .getOne();
-
-    if (user === null) {
-      throw new CustomError(errorCode.USER_NOT_FOUND);
-    }
 
     return user;
   }
@@ -55,7 +45,6 @@ export class UserDb implements IUserDb {
     });
 
     const savedUser: User = await this.userRepo.save(user);
-
     return savedUser;
   }
 

@@ -3,8 +3,6 @@ import {dataSource} from '../data-source';
 import Token from '../entity/token';
 import {TOKEN_TYPE} from '../entity/enum/tokenType';
 import moment from 'moment';
-import CustomError from '../errors/customError';
-import {errorCode} from '../errors/errorCode';
 
 export interface ITokenDb {
   createToken: (
@@ -12,7 +10,7 @@ export interface ITokenDb {
     tokenType: TOKEN_TYPE,
     expiryTimeFromNow: number
   ) => Promise<Token>;
-  getToken: (tokenId: string) => Promise<Token>;
+  getToken: (tokenId: string) => Promise<Token | null>;
   saveToken: (token: Token) => Promise<Token>;
   invalidateToken: (userId: string, tokenType: TOKEN_TYPE) => Promise<void>;
 }
@@ -32,21 +30,16 @@ export class TokenDb implements ITokenDb {
     });
 
     const savedToken: Token = await this.tokenRepo.save(token);
-
     return savedToken;
   }
 
-  public async getToken(tokenId: string): Promise<Token> {
+  public async getToken(tokenId: string): Promise<Token | null> {
     const token: Token | null = await this.tokenRepo
       .createQueryBuilder('token')
       .select('token')
       .leftJoinAndSelect('token.user', 'user')
       .where('token.id = :id', {id: tokenId})
       .getOne();
-
-    if (token === null) {
-      throw new CustomError(errorCode.TOKEN_DOES_NOT_EXISTS);
-    }
 
     return token;
   }

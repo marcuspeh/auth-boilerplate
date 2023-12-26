@@ -29,7 +29,11 @@ export default class TokenService {
     userId: string,
     tokenType: TOKEN_TYPE
   ): Promise<Token> {
-    const token: Token = await this.tokenDb.getToken(tokenId);
+    const token: Token | null = await this.tokenDb.getToken(tokenId);
+
+    if (token === null) {
+      throw new CustomError(errorCode.TOKEN_DOES_NOT_EXISTS);
+    }
 
     if (token.user.id !== userId) {
       throw new CustomError(errorCode.TOKEN_INVALID);
