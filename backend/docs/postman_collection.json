@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "0a7c3de0-2cda-429b-a2b9-7a6d0ddf33ed",
 		"name": "Boilerplate",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "15848439"
 	},
 	"item": [
@@ -17,16 +17,7 @@
 						"type": "text"
 					}
 				],
-				"url": {
-					"raw": "{{API_URL}}/api/serverStatus",
-					"host": [
-						"{{API_URL}}"
-					],
-					"path": [
-						"api",
-						"serverStatus"
-					]
-				}
+				"url": "{{API_URL}}/api/serverStatus"
 			},
 			"response": []
 		},
@@ -41,17 +32,7 @@
 						"type": "text"
 					}
 				],
-				"url": {
-					"raw": "{{API_URL}}/api/crypto/getPublicKey",
-					"host": [
-						"{{API_URL}}"
-					],
-					"path": [
-						"api",
-						"crypto",
-						"getPublicKey"
-					]
-				}
+				"url": "{{API_URL}}/api/crypto/getPublicKey"
 			},
 			"response": []
 		},
@@ -75,17 +56,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "{{API_URL}}/api/crypto/encrypt",
-					"host": [
-						"{{API_URL}}"
-					],
-					"path": [
-						"api",
-						"crypto",
-						"encrypt"
-					]
-				}
+				"url": "{{API_URL}}/api/crypto/encrypt"
 			},
 			"response": []
 		},
@@ -109,17 +80,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "{{API_URL}}/api/crypto/decrypt",
-					"host": [
-						"{{API_URL}}"
-					],
-					"path": [
-						"api",
-						"crypto",
-						"decrypt"
-					]
-				}
+				"url": "{{API_URL}}/api/crypto/decrypt"
 			},
 			"response": []
 		},
@@ -143,17 +104,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "{{API_URL}}/api/crypto/hashPassword",
-					"host": [
-						"{{API_URL}}"
-					],
-					"path": [
-						"api",
-						"crypto",
-						"hashPassword"
-					]
-				}
+				"url": "{{API_URL}}/api/crypto/hashPassword"
 			},
 			"response": []
 		},
@@ -177,17 +128,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "{{API_URL}}/api/crypto/checkPassword",
-					"host": [
-						"{{API_URL}}"
-					],
-					"path": [
-						"api",
-						"crypto",
-						"checkPassword"
-					]
-				}
+				"url": "{{API_URL}}/api/crypto/checkPassword"
 			},
 			"response": []
 		},
@@ -211,17 +152,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "{{API_URL}}/api/auth/register",
-					"host": [
-						"{{API_URL}}"
-					],
-					"path": [
-						"api",
-						"auth",
-						"register"
-					]
-				}
+				"url": "{{API_URL}}/api/auth/register"
 			},
 			"response": []
 		},
@@ -232,7 +163,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.environment.set('TONIC', pm.cookies.get(\"TONIC\"))"
+							"pm.environment.set('TONIC', pm.cookies.get(\"GIN\"))"
 						],
 						"type": "text/javascript"
 					}
@@ -256,17 +187,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "{{API_URL}}/api/auth/login",
-					"host": [
-						"{{API_URL}}"
-					],
-					"path": [
-						"api",
-						"auth",
-						"login"
-					]
-				}
+				"url": "{{API_URL}}/api/auth/login"
 			},
 			"response": []
 		},
@@ -286,17 +207,27 @@
 						"type": "text"
 					}
 				],
-				"url": {
-					"raw": "{{API_URL}}/api/auth/logout",
-					"host": [
-						"{{API_URL}}"
-					],
-					"path": [
-						"api",
-						"auth",
-						"logout"
-					]
-				}
+				"url": "{{API_URL}}/api/auth/logout"
+			},
+			"response": []
+		},
+		{
+			"name": "Check authentication",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "apitoken",
+						"value": "{{API_TOKEN}}",
+						"type": "text"
+					},
+					{
+						"key": "TONIC",
+						"value": "{{TONIC}}",
+						"type": "text"
+					}
+				],
+				"url": "{{API_URL}}/api/auth/logout"
 			},
 			"response": []
 		}

@@ -14,6 +14,9 @@ router.post('/login', async (ctx: Context) => {
 router.post('/logout', auth, async (ctx: Context) => {
   await userController.logout(ctx);
 });
+router.get('/checkAuth', auth, async (ctx: Context) => {
+  await userController.checkAuthentication(ctx);
+});
 
 const userRoutes = router.routes();
 export default userRoutes;

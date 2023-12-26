@@ -67,6 +67,12 @@ class UserController {
       message: 'Goodbye',
     };
   }
+
+  public async checkAuthentication(ctx: Context) {
+    ctx.body = {
+      message: 'Authenticated',
+    };
+  }
 }
 
 export default new UserController();

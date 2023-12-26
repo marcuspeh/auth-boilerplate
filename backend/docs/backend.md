@@ -22,6 +22,7 @@ APITOKEN: "VERY SECRET KEY"
 | /api/auth/register | POST | ALL | Registers a new user |
 | /api/auth/login | POST | ALL | Logs in a user |
 | /api/auth/logout | POST | ALL | Logout a user |
+| /api/auth/checkAuth | GET | ALL | Check if user is authenticated |
 
 ---
 
@@ -237,5 +238,32 @@ None
 ```
 
 ### Errors: 
+E0300: TOKEN_EXPIRED
+E0301: TOKEN_INVALID
+E0302: TOKEN_DOES_NOT_EXISTS
+E0303: CSRF_DOES_NOT_EXISTS
+E0304: CSRF_MISMATCH
+---
+
+## API: /api/auth/checkAuth
+
+### Description: 
+Check if user is logged in
+
+### Request body:
 None
+
+### Reponse:
+```json
+{
+    "message": "Authenticated"
+}
+```
+
+### Errors: 
+E0300: TOKEN_EXPIRED
+E0301: TOKEN_INVALID
+E0302: TOKEN_DOES_NOT_EXISTS
+E0303: CSRF_DOES_NOT_EXISTS
+E0304: CSRF_MISMATCH
 ---
