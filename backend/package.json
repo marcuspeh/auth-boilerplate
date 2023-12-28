@@ -21,8 +21,8 @@
   "author": "marcuspeh",
   "license": "",
   "devDependencies": {
-    "nodemon": "^3.0.1",
-    "gts": "^5.0.0"
+    "gts": "^5.0.0",
+    "nodemon": "^3.0.1"
   },
   "dependencies": {
     "@koa/cors": "^4.0.0",
@@ -41,6 +41,7 @@
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
+    "cron": "^3.1.6",
     "dotenv": "^16.0.3",
     "jsonwebtoken": "^9.0.0",
     "koa": "^2.14.2",

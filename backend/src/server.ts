@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('./scheduler/index');
 
 import app from './app';
 import {dataSource} from './data-source';
