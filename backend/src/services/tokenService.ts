@@ -50,4 +50,8 @@ export default class TokenService {
   ): Promise<void> {
     await this.tokenDb.invalidateToken(userId, tokenType);
   }
+
+  public async invalidateExpiredToken(): Promise<void> {
+    await this.tokenDb.invalidateExpiredToken();
+  }
 }

@@ -17,5 +17,5 @@ View `docs/backend.md` for more info about the endpoints
 * **[Rapid API](https://rapidapi.com/)**: to manage api
 
 # Cron Job
-* There is a cron job scheduled to run every day to clear expired tokens from db.
+* There is a cron job scheduled to run every day to invalidate expired tokens from db.
 * This could be done in a seperate node server but since it is lightweight, it will be done in the backend folder

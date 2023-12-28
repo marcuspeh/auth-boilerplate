@@ -58,4 +58,14 @@ export class TokenDb implements ITokenDb {
       {isValid: false}
     );
   }
+
+  public async invalidateExpiredToken(): Promise<void> {
+    await this.tokenRepo
+      .createQueryBuilder('token')
+      .update(Token)
+      .set({isValid: false})
+      .where('expiryDate < :time', {time: moment()})
+      .andWhere('isValid = true')
+      .execute();
+  }
 }

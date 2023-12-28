@@ -1,15 +1,15 @@
 import {CronJob} from 'cron';
+import TokenService from '../services/tokenService';
 
-console.log('Before job instantiation');
 const clearExpiredTokenJob = new CronJob(
-  '* * * * * *', // cronTime
+  '0 * * * * *', // cronTime
   () => {
-    console.log('You will see this message every second');
+    console.log('Invalidating expired tokens');
+    const tokenService: TokenService = new TokenService();
+    tokenService.invalidateExpiredToken();
   }, // onTick
   null, // onComplete
   true // start
 );
-
-console.log('After job instantiation');
 
 export default clearExpiredTokenJob;
