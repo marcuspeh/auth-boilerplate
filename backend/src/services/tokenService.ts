@@ -1,5 +1,5 @@
 import {TokenDb} from '../db/tokenDb';
-import {TOKEN_TYPE} from '../entity/enum/tokenType';
+import {TOKEN_TYPE} from '../enum/tokenType';
 import CustomError from '../errors/customError';
 import {errorCode} from '../errors/errorCode';
 import Token from '../entity/token';

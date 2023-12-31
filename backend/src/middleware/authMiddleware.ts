@@ -3,7 +3,7 @@ import {errorCode} from '../errors/errorCode';
 import {Context} from 'koa';
 import CustomError from '../errors/customError';
 import TokenService from '../services/tokenService';
-import {TOKEN_TYPE} from '../entity/enum/tokenType';
+import {TOKEN_TYPE} from '../enum/tokenType';
 import Token from '../entity/token';
 import JwtPayloadModel from '../models/jwtPayloadModel';
 

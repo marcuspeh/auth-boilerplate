@@ -1,7 +1,7 @@
 import User from '../entity/user';
 import {dataSource} from '../data-source';
 import Token from '../entity/token';
-import {TOKEN_TYPE} from '../entity/enum/tokenType';
+import {TOKEN_TYPE} from '../enum/tokenType';
 import moment from 'moment';
 
 export interface ITokenDb {

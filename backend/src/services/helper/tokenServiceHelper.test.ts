@@ -3,7 +3,7 @@ import tokenServiceHelper from './tokenServiceHelper';
 import CustomError from '../../errors/customError';
 import {errorCode} from '../../errors/errorCode';
 import Token from '../../entity/token';
-import {TOKEN_TYPE} from '../../entity/enum/tokenType';
+import {TOKEN_TYPE} from '../../enum/tokenType';
 
 describe('TokenServiceHelper', () => {
   describe('isExpired', () => {

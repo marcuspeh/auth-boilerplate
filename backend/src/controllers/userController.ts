@@ -4,7 +4,7 @@ import UserService from '../services/userService';
 import {loginUserDTO, registerUserDTO} from './apiSchemas/userDTO';
 import dtoValidator from './helper/dtoValidator';
 import TokenService from '../services/tokenService';
-import {TOKEN_TYPE} from '../entity/enum/tokenType';
+import {TOKEN_TYPE} from '../enum/tokenType';
 
 class UserController {
   private userService: UserService = new UserService();

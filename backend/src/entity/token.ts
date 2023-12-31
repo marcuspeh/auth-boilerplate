@@ -12,7 +12,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import {TOKEN_TYPE} from './enum/tokenType';
+import {TOKEN_TYPE} from '../enum/tokenType';
 import User from './user';
 
 @Entity()
