@@ -7,7 +7,6 @@ import {errorCode} from '../../errors/errorCode';
 class TokenServiceHelper {
   public async isExpired(token: Token, throwErr = false): Promise<boolean> {
     const isExpired: boolean = moment().isAfter(token.expiryDate);
-
     if (throwErr && isExpired) {
       throw new CustomError(errorCode.TOKEN_EXPIRED);
     }
@@ -24,9 +23,11 @@ class TokenServiceHelper {
       if (throwErr) {
         throw new CustomError(errorCode.TOKEN_INVALID);
       }
+      return false;
     }
 
-    return !this.isExpired(token);
+    const isExpired = await this.isExpired(token, throwErr);
+    return !isExpired;
   }
 }
 
