@@ -1,10 +1,10 @@
-import cookieParser from 'koa-cookie';
-import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
+import cookieParser from 'koa-cookie';
 import Cors from '@koa/cors';
+import Koa from 'koa';
 
-import routes from './routes/index';
 import apiKeyCheck from './middleware/apiKeyMiddleware';
+import routes from './routes/index';
 
 const app: Koa = new Koa();
 

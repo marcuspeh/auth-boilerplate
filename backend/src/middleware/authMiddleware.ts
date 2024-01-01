@@ -1,13 +1,13 @@
-import jwt from 'jsonwebtoken';
 import {Context} from 'koa';
+import jwt from 'jsonwebtoken';
 
-import {errorCode} from '../errors/errorCode';
-import CustomError from '../errors/customError';
-import TokenService from '../services/tokenService';
-import {TOKEN_TYPE} from '../enum/tokenType';
-import Token from '../entity/token';
-import JwtPayloadModel from '../models/jwtPayloadModel';
 import constant from '../constant';
+import CustomError from '../errors/customError';
+import {errorCode} from '../errors/errorCode';
+import JwtPayloadModel from '../models/jwtPayloadModel';
+import Token from '../entity/token';
+import {TOKEN_TYPE} from '../enum/tokenType';
+import TokenService from '../services/tokenService';
 
 const tokenService: TokenService = new TokenService();
 

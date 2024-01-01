@@ -1,13 +1,13 @@
-import {IsDefined, IsEmail, IsString, validate} from 'class-validator';
 import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  BeforeUpdate,
   BeforeInsert,
+  BeforeUpdate,
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
+import {IsDefined, IsEmail, IsString, validate} from 'class-validator';
 
 import CustomError from '../errors/customError';
 import {errorCode} from '../errors/errorCode';

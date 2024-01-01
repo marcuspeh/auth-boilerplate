@@ -1,8 +1,8 @@
-import Router from 'koa-router';
 import {Context} from 'koa';
+import Router from 'koa-router';
 
-import serverStatusController from '../controllers/serverStatusController';
 import cryptoRoutes from './cryptoRoute';
+import serverStatusController from '../controllers/serverStatusController';
 import userRoutes from './userRoute';
 
 const router = new Router();

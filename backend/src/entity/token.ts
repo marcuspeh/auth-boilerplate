@@ -1,15 +1,15 @@
-import {IsDefined, IsEnum, validate} from 'class-validator';
 import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  BeforeUpdate,
   BeforeInsert,
-  ManyToOne,
+  BeforeUpdate,
+  Column,
+  CreateDateColumn,
+  Entity,
   JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
+import {IsDefined, IsEnum, validate} from 'class-validator';
 
 import CustomError from '../errors/customError';
 import {errorCode} from '../errors/errorCode';

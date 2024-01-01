@@ -1,9 +1,9 @@
 import moment from 'moment';
 
-import User from '../entity/user';
 import {dataSource} from '../data-source';
 import Token from '../entity/token';
 import {TOKEN_TYPE} from '../enum/tokenType';
+import User from '../entity/user';
 
 export interface ITokenDb {
   createToken: (

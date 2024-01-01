@@ -1,12 +1,12 @@
 import {Context} from 'koa';
 
+import {loginUserDTO, registerUserDTO} from './apiSchemas/userDTO';
+import constant from '../constant';
+import dtoValidator from './helper/dtoValidator';
+import {TOKEN_TYPE} from '../enum/tokenType';
+import TokenService from '../services/tokenService';
 import User from '../entity/user';
 import UserService from '../services/userService';
-import {loginUserDTO, registerUserDTO} from './apiSchemas/userDTO';
-import dtoValidator from './helper/dtoValidator';
-import TokenService from '../services/tokenService';
-import {TOKEN_TYPE} from '../enum/tokenType';
-import constant from '../constant';
 
 class UserController {
   private userService: UserService = new UserService();

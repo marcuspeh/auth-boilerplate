@@ -1,9 +1,9 @@
 import {Context} from 'koa';
 
-import CryptoService from '../services/cryptoService';
 import {encryptionDTO, hashingDTO} from './apiSchemas/cryptoDTO';
-import dtoValidator from './helper/dtoValidator';
 import constant from '../constant';
+import CryptoService from '../services/cryptoService';
+import dtoValidator from './helper/dtoValidator';
 
 class CryptoController {
   private CryptoService: CryptoService = new CryptoService();

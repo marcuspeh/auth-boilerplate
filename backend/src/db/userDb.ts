@@ -1,5 +1,5 @@
-import User from '../entity/user';
 import {dataSource} from '../data-source';
+import User from '../entity/user';
 
 export interface IUserDb {
   getUserByEmail: (email: string) => Promise<User | null>;

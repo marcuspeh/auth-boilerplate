@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 import {DataSource} from 'typeorm';
 
-import User from './entity/user';
 import Token from './entity/token';
+import User from './entity/user';
 
 require('dotenv').config();
 

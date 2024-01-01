@@ -1,8 +1,8 @@
 import bcrypt from 'bcryptjs';
 
-import passwordServiceHelper from './passwordServiceHelper';
 import CustomError from '../../errors/customError';
 import {errorCode} from '../../errors/errorCode';
+import passwordServiceHelper from './passwordServiceHelper';
 
 const mockSalt = '$2a$10$fHA6/UVmzntiaLlJDo49PO';
 

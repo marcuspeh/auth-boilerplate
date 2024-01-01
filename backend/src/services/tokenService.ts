@@ -1,12 +1,12 @@
-import {TokenDb} from '../db/tokenDb';
-import {TOKEN_TYPE} from '../enum/tokenType';
 import CustomError from '../errors/customError';
 import {errorCode} from '../errors/errorCode';
-import Token from '../entity/token';
-import User from '../entity/user';
 import jwtServiceHelper from './helper/jwtServiceHelper';
-import tokenServiceHelper from './helper/tokenServiceHelper';
+import Token from '../entity/token';
+import {TOKEN_TYPE} from '../enum/tokenType';
 import tokenConstant from '../constant/tokenConstant';
+import {TokenDb} from '../db/tokenDb';
+import tokenServiceHelper from './helper/tokenServiceHelper';
+import User from '../entity/user';
 
 export default class TokenService {
   private tokenDb: TokenDb = new TokenDb();

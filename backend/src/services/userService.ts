@@ -1,9 +1,9 @@
-import {UserDb} from '../db/userDb';
-import User from '../entity/user';
 import CustomError from '../errors/customError';
 import {errorCode} from '../errors/errorCode';
 import passwordServiceHelper from './helper/passwordServiceHelper';
 import rsaServiceHelper from './helper/rsaServiceHelper';
+import User from '../entity/user';
+import {UserDb} from '../db/userDb';
 
 export default class UserService {
   userDb: UserDb = new UserDb();
