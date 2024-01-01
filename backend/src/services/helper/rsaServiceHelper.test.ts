@@ -12,7 +12,7 @@ describe('RsaServiceHelper', () => {
       NodeRSA.prototype.decrypt = jest.fn();
     });
 
-    test('should decrypt the ciphertext', async () => {
+    it('should decrypt the ciphertext', async () => {
       const ciphertext = 'encrypted-text';
       const decryptedText = 'decrypted-text';
 
@@ -26,7 +26,7 @@ describe('RsaServiceHelper', () => {
       );
     });
 
-    test('should throw an error for decryption failure', async () => {
+    it('should throw an error for decryption failure', async () => {
       const ciphertext = 'invalid-ciphertext';
       const errorMessage = 'Decryption failed';
 
@@ -49,7 +49,7 @@ describe('RsaServiceHelper', () => {
       NodeRSA.prototype.encrypt = jest.fn();
     });
 
-    test('should encrypt the plaintext', async () => {
+    it('should encrypt the plaintext', async () => {
       const plaintext = 'plain-text';
       const encryptedText = 'encrypted-text';
 
@@ -63,7 +63,7 @@ describe('RsaServiceHelper', () => {
       );
     });
 
-    test('should throw an error for encryption failure', async () => {
+    it('should throw an error for encryption failure', async () => {
       const plaintext = 'invalid-plaintext';
       const errorMessage = 'Encryption failed';
 

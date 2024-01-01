@@ -17,7 +17,7 @@ describe('PasswordServiceHelper', () => {
       bcrypt.genSalt = jest.fn();
     });
 
-    test('success, number', async () => {
+    it('success, number', async () => {
       const input = '35366746';
       const expectedOutput =
         '$2a$10$fHA6/UVmzntiaLlJDo49POBWprEEjz13t0cQ9IDEpt3WEkvNv6G4G';
@@ -33,7 +33,7 @@ describe('PasswordServiceHelper', () => {
       expect(bcrypt.hash).toHaveBeenCalledWith(input, mockSalt);
     });
 
-    test('success, symbols', async () => {
+    it('success, symbols', async () => {
       const input = '!$#%$%#%#^&%&';
       const expectedOutput =
         '$2a$10$fHA6/UVmzntiaLlJDo49POtwr5qz6Jm12TEQqlPF/ob6SIWvCgid.';
@@ -49,7 +49,7 @@ describe('PasswordServiceHelper', () => {
       expect(bcrypt.hash).toHaveBeenCalledWith(input, mockSalt);
     });
 
-    test('success, mixed', async () => {
+    it('success, mixed', async () => {
       const input = 'dvVFG#4g#BNvdv#';
       const expectedOutput =
         '$2a$10$fHA6/UVmzntiaLlJDo49POGY1Z4yDkhhRFIs41Wy1w2JHqPXI4eci';
@@ -65,7 +65,7 @@ describe('PasswordServiceHelper', () => {
       expect(bcrypt.hash).toHaveBeenCalledWith(input, mockSalt);
     });
 
-    test('success, empty string', async () => {
+    it('success, empty string', async () => {
       const input = '';
       const expectedOutput =
         '$2a$10$fHA6/UVmzntiaLlJDo49POyhlWEbEyAf5BFW/UJ6J9CzSBltJ3aae';
@@ -83,7 +83,7 @@ describe('PasswordServiceHelper', () => {
   });
 
   describe('checkPassword', () => {
-    test('success', async () => {
+    it('success', async () => {
       const password = 'dvVFG#4g#BNvdv#';
       const passwordHash =
         '$2a$10$fHA6/UVmzntiaLlJDo49POGY1Z4yDkhhRFIs41Wy1w2JHqPXI4eci';
@@ -93,7 +93,7 @@ describe('PasswordServiceHelper', () => {
       expect(bcrypt.compare).toHaveBeenCalledWith(password, passwordHash);
     });
 
-    test('invalid, should throw error', async () => {
+    it('invalid, should throw error', async () => {
       const password = 'sfbfdbfhbf';
       const passwordHash =
         '$2a$10$fHA6/UVmzntiaLlJDo49POGY1Z4yDkhhRFIs41Wy1w2JHqPXI4eci';

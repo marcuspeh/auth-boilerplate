@@ -1,9 +1,9 @@
+import constant from '../constant';
 import CustomError from '../errors/customError';
 import {errorCode} from '../errors/errorCode';
 import jwtServiceHelper from './helper/jwtServiceHelper';
 import Token from '../entity/token';
 import {TOKEN_TYPE} from '../enum/tokenType';
-import tokenConstant from '../constant/tokenConstant';
 import {TokenDb} from '../db/tokenDb';
 import tokenServiceHelper from './helper/tokenServiceHelper';
 import User from '../entity/user';
@@ -16,7 +16,7 @@ export default class TokenService {
 
     const expiryTimeFromNow: number =
       Number(process.env.MAX_USER_TOKEN_VALIDITY_SECONDS) ||
-      tokenConstant.DEFAULT_TOKEN_EXPIRY_SECONDS;
+      constant.DEFAULT_TOKEN_EXPIRY_SECONDS;
     const userToken: Token = await this.tokenDb.createToken(
       user,
       TOKEN_TYPE.USER_TOKEN,

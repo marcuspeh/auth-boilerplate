@@ -8,7 +8,7 @@ import tokenServiceHelper from './tokenServiceHelper';
 
 describe('TokenServiceHelper', () => {
   describe('isExpired', () => {
-    test('valid, expired token', async () => {
+    it('valid, expired token', async () => {
       const expiredToken: Token = new Token();
       expiredToken.expiryDate = moment().subtract(1, 'day').toDate();
 
@@ -17,7 +17,7 @@ describe('TokenServiceHelper', () => {
       expect(result).toBe(true);
     });
 
-    test('valid, token not expired', async () => {
+    it('valid, token not expired', async () => {
       const validToken: Token = new Token();
       validToken.expiryDate = moment().add(1, 'day').toDate();
 
@@ -26,7 +26,7 @@ describe('TokenServiceHelper', () => {
       expect(result).toBe(false);
     });
 
-    test('invalid, token is expired and error is thrown', async () => {
+    it('invalid, token is expired and error is thrown', async () => {
       const expiredToken: Token = new Token();
       expiredToken.expiryDate = moment().subtract(1, 'day').toDate();
 
@@ -37,7 +37,7 @@ describe('TokenServiceHelper', () => {
   });
 
   describe('isValid', () => {
-    test('valid, token is valid', async () => {
+    it('valid, token is valid', async () => {
       const validToken: Token = new Token();
       validToken.expiryDate = moment().add(1, 'day').toDate();
       validToken.type = TOKEN_TYPE.USER_TOKEN;
@@ -51,7 +51,7 @@ describe('TokenServiceHelper', () => {
       expect(result).toBe(true);
     });
 
-    test('valid, invalid token without error', async () => {
+    it('valid, invalid token without error', async () => {
       const invalidToken: Token = new Token();
       invalidToken.type = TOKEN_TYPE.USER_TOKEN;
       invalidToken.isValid = false;
@@ -64,7 +64,7 @@ describe('TokenServiceHelper', () => {
       expect(result).toBe(false);
     });
 
-    test('invalid, invalid token with error', async () => {
+    it('invalid, invalid token with error', async () => {
       const invalidToken: Token = new Token();
       invalidToken.type = TOKEN_TYPE.USER_TOKEN;
       invalidToken.isValid = false;
@@ -74,7 +74,7 @@ describe('TokenServiceHelper', () => {
       ).rejects.toThrow(new CustomError(errorCode.TOKEN_INVALID));
     });
 
-    test('valid, return false for expired token', async () => {
+    it('valid, return false for expired token', async () => {
       const validToken: Token = new Token();
       validToken.expiryDate = moment().subtract(1, 'day').toDate();
       validToken.type = TOKEN_TYPE.USER_TOKEN;
@@ -88,7 +88,7 @@ describe('TokenServiceHelper', () => {
       expect(result).toBe(false);
     });
 
-    test('invalid, expired token with error', async () => {
+    it('invalid, expired token with error', async () => {
       const validToken: Token = new Token();
       validToken.expiryDate = moment().subtract(1, 'day').toDate();
       validToken.type = TOKEN_TYPE.USER_TOKEN;
