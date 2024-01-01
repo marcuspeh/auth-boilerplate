@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+
 import CustomError from '../../errors/customError';
 import {errorCode} from '../../errors/errorCode';
 

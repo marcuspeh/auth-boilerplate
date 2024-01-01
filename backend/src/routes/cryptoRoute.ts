@@ -1,6 +1,7 @@
 import Router from 'koa-router';
-import cryptoController from '../controllers/cryptoController';
 import {Context} from 'koa';
+
+import cryptoController from '../controllers/cryptoController';
 import devCheck from '../middleware/devOnlyMiddleware';
 
 const router = new Router();

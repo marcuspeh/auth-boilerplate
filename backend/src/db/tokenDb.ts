@@ -1,8 +1,9 @@
+import moment from 'moment';
+
 import User from '../entity/user';
 import {dataSource} from '../data-source';
 import Token from '../entity/token';
 import {TOKEN_TYPE} from '../enum/tokenType';
-import moment from 'moment';
 
 export interface ITokenDb {
   createToken: (
@@ -23,7 +24,7 @@ export class TokenDb implements ITokenDb {
     tokenType: TOKEN_TYPE,
     expiryTimeFromNow: number
   ): Promise<Token> {
-    const token: Token = await this.tokenRepo.create({
+    const token: Token = this.tokenRepo.create({
       user: user,
       type: tokenType,
       expiryDate: moment().add(expiryTimeFromNow),

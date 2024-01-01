@@ -1,11 +1,13 @@
 import jwt from 'jsonwebtoken';
-import {errorCode} from '../errors/errorCode';
 import {Context} from 'koa';
+
+import {errorCode} from '../errors/errorCode';
 import CustomError from '../errors/customError';
 import TokenService from '../services/tokenService';
 import {TOKEN_TYPE} from '../enum/tokenType';
 import Token from '../entity/token';
 import JwtPayloadModel from '../models/jwtPayloadModel';
+import constant from '../constant';
 
 const tokenService: TokenService = new TokenService();
 
@@ -20,7 +22,10 @@ const validateToken = async (
 
   let payload;
   try {
-    payload = jwt.verify(token, process.env.JWT_SECRET || '');
+    payload = jwt.verify(
+      token,
+      process.env.JWT_SECRET || constant.EMPTY_STRING
+    );
   } catch (e) {
     throw new CustomError(errorCode.TOKEN_EXPIRED);
   }

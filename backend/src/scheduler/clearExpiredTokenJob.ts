@@ -1,4 +1,5 @@
 import {CronJob} from 'cron';
+
 import TokenService from '../services/tokenService';
 
 const clearExpiredTokenJob = new CronJob(

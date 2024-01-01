@@ -1,6 +1,7 @@
+import {Context} from 'koa';
+
 import CustomError from '../errors/customError';
 import {errorCode} from '../errors/errorCode';
-import {Context} from 'koa';
 
 const apiKeyCheck = async (ctx: Context, next: () => Promise<any>) => {
   const apiToken = ctx.request.header.apitoken;

@@ -6,6 +6,7 @@ import Token from '../entity/token';
 import User from '../entity/user';
 import jwtServiceHelper from './helper/jwtServiceHelper';
 import tokenServiceHelper from './helper/tokenServiceHelper';
+import tokenConstant from '../constant/tokenConstant';
 
 export default class TokenService {
   private tokenDb: TokenDb = new TokenDb();
@@ -14,7 +15,8 @@ export default class TokenService {
     await this.tokenDb.invalidateToken(user.id, TOKEN_TYPE.USER_TOKEN);
 
     const expiryTimeFromNow: number =
-      Number(process.env.MAX_USER_TOKEN_VALIDITY_SECONDS) || 360;
+      Number(process.env.MAX_USER_TOKEN_VALIDITY_SECONDS) ||
+      tokenConstant.DEFAULT_TOKEN_EXPIRY_SECONDS;
     const userToken: Token = await this.tokenDb.createToken(
       user,
       TOKEN_TYPE.USER_TOKEN,

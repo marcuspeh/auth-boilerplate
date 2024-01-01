@@ -1,5 +1,6 @@
-import {TOKEN_TYPE} from '../../enum/tokenType';
 import moment from 'moment';
+
+import {TOKEN_TYPE} from '../../enum/tokenType';
 import Token from '../../entity/token';
 import CustomError from '../../errors/customError';
 import {errorCode} from '../../errors/errorCode';

@@ -1,5 +1,6 @@
 import {errorCode} from './errorCode';
 import logger from '../middleware/logger';
+import constant from '../constant';
 
 export default class CustomError extends Error {
   public status: number;
@@ -9,7 +10,7 @@ export default class CustomError extends Error {
   public constructor(code: string, info?: string) {
     super(code);
     this.code = code;
-    this.info = info || '';
+    this.info = info || constant.EMPTY_STRING;
 
     if (
       code === errorCode.TOKEN_DOES_NOT_EXISTS ||

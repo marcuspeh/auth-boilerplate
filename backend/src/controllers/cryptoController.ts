@@ -1,13 +1,15 @@
 import {Context} from 'koa';
+
 import CryptoService from '../services/cryptoService';
 import {encryptionDTO, hashingDTO} from './apiSchemas/cryptoDTO';
 import dtoValidator from './helper/dtoValidator';
+import constant from '../constant';
 
 class CryptoController {
   private CryptoService: CryptoService = new CryptoService();
 
   public async getPublicKey(ctx: Context) {
-    const publicKey: string = process.env.PUBLIC_KEY || '';
+    const publicKey: string = process.env.PUBLIC_KEY || constant.EMPTY_STRING;
 
     ctx.body = {
       publicKey: publicKey,

@@ -1,5 +1,7 @@
-import Token from '../../entity/token';
 import jwt from 'jsonwebtoken';
+
+import constant from '../../constant';
+import Token from '../../entity/token';
 
 class JwtServiceHelper {
   public async signJwtToken(token: Token): Promise<string> {
@@ -9,7 +11,10 @@ class JwtServiceHelper {
       expiryDate: token.expiryDate,
     };
 
-    const jwtToken: string = jwt.sign(payload, process.env.JWT_SECRET || '');
+    const jwtToken: string = jwt.sign(
+      payload,
+      process.env.JWT_SECRET || constant.EMPTY_STRING
+    );
     return jwtToken;
   }
 }

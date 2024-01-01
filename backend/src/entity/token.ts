@@ -1,6 +1,4 @@
 import {IsDefined, IsEnum, validate} from 'class-validator';
-import CustomError from '../errors/customError';
-import {errorCode} from '../errors/errorCode';
 import {
   Entity,
   Column,
@@ -12,6 +10,9 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
+
+import CustomError from '../errors/customError';
+import {errorCode} from '../errors/errorCode';
 import {TOKEN_TYPE} from '../enum/tokenType';
 import User from './user';
 

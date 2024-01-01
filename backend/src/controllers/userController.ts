@@ -1,10 +1,12 @@
-import User from '../entity/user';
 import {Context} from 'koa';
+
+import User from '../entity/user';
 import UserService from '../services/userService';
 import {loginUserDTO, registerUserDTO} from './apiSchemas/userDTO';
 import dtoValidator from './helper/dtoValidator';
 import TokenService from '../services/tokenService';
 import {TOKEN_TYPE} from '../enum/tokenType';
+import constant from '../constant';
 
 class UserController {
   private userService: UserService = new UserService();
@@ -57,7 +59,7 @@ class UserController {
 
   public async logout(ctx: Context) {
     const userId: string =
-      ctx.request?.header?.userId?.toString() || 'unknown user';
+      ctx.request?.header?.userId?.toString() || constant.EMPTY_STRING;
 
     await this.tokenService.invalidateToken(userId, TOKEN_TYPE.USER_TOKEN);
 

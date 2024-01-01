@@ -1,5 +1,6 @@
 import Router from 'koa-router';
 import {Context} from 'koa';
+
 import userController from '../controllers/userController';
 import auth from '../middleware/authMiddleware';
 

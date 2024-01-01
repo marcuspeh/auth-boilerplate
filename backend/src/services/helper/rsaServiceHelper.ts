@@ -1,10 +1,16 @@
 import NodeRSA from 'node-rsa';
+
 import CustomError from '../../errors/customError';
 import {errorCode} from '../../errors/errorCode';
+import constant from '../../constant';
 
 class RsaServiceHelper {
-  private privateKey = new NodeRSA(process.env.PRIVATE_KEY || '');
-  private publicKey = new NodeRSA(process.env.PUBLIC_KEY || '');
+  private privateKey = new NodeRSA(
+    process.env.PRIVATE_KEY || constant.EMPTY_STRING
+  );
+  private publicKey = new NodeRSA(
+    process.env.PUBLIC_KEY || constant.EMPTY_STRING
+  );
 
   public async decrypt(ciphertext: string): Promise<string> {
     try {
