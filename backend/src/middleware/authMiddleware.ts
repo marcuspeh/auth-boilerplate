@@ -7,9 +7,7 @@ import {errorCode} from '../errors/errorCode';
 import JwtPayloadModel from '../models/jwtPayloadModel';
 import Token from '../entity/token';
 import {TOKEN_TYPE} from '../enum/tokenType';
-import TokenService from '../services/tokenService';
-
-const tokenService: TokenService = new TokenService();
+import tokenService from '../services/tokenService';
 
 const validateToken = async (
   ctx: Context,
@@ -27,7 +25,7 @@ const validateToken = async (
       process.env.JWT_SECRET || constant.EMPTY_STRING
     );
   } catch (e) {
-    throw new CustomError(errorCode.TOKEN_EXPIRED);
+    throw new CustomError(errorCode.TOKEN_INVALID);
   }
 
   const jwtPayloadModel: JwtPayloadModel = JwtPayloadModel.from(payload);

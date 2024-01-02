@@ -3,55 +3,57 @@ import {errorCode} from '../errors/errorCode';
 import passwordServiceHelper from './helper/passwordServiceHelper';
 import rsaServiceHelper from './helper/rsaServiceHelper';
 import User from '../entity/user';
-import {UserDb} from '../db/userDb';
+import UserDb from '../db/userDb';
 
-export default class UserService {
-  userDb: UserDb = new UserDb();
+async function register(
+  name: string,
+  email: string,
+  encryptedPassword: string
+): Promise<User> {
+  let user: User | null = await UserDb.getUserByEmail(email);
 
-  public async register(
-    name: string,
-    email: string,
-    encryptedPassword: string
-  ): Promise<User> {
-    let user: User | null = await this.userDb.getUserByEmail(email);
-
-    if (user) {
-      throw new CustomError(errorCode.EMAIL_EXISTS, 'Email already exists');
-    }
-
-    const password: string = await rsaServiceHelper.decrypt(encryptedPassword);
-    const passwordHash: string =
-      await passwordServiceHelper.hashPassword(password);
-    user = await this.userDb.createUser(name, email, passwordHash);
-    user.password = '';
-
-    return user;
+  if (user) {
+    throw new CustomError(errorCode.EMAIL_EXISTS, 'Email already exists');
   }
 
-  public async login(email: string, encryptedPassword: string): Promise<User> {
-    const user: User | null = await this.userDb.getUserByEmail(email);
+  const password: string = await rsaServiceHelper.decrypt(encryptedPassword);
+  const passwordHash: string =
+    await passwordServiceHelper.hashPassword(password);
+  user = await UserDb.createUser(name, email, passwordHash);
+  user.password = '';
 
-    if (!user) {
-      throw new CustomError(
-        errorCode.CREDENTIALS_INVALID,
-        'User with email not found'
-      );
-    }
-
-    const password: string = await rsaServiceHelper.decrypt(encryptedPassword);
-    await passwordServiceHelper.checkPassword(password, user.password);
-    user.password = '';
-
-    return user;
-  }
-
-  public async getUser(userId: string): Promise<User> {
-    const user: User | null = await this.userDb.getUserById(userId);
-
-    if (!user) {
-      throw new CustomError(errorCode.USER_NOT_FOUND, 'User not found');
-    }
-
-    return user;
-  }
+  return user;
 }
+
+async function login(email: string, encryptedPassword: string): Promise<User> {
+  const user: User | null = await UserDb.getUserByEmail(email);
+
+  if (!user) {
+    throw new CustomError(
+      errorCode.CREDENTIALS_INVALID,
+      'User with email not found'
+    );
+  }
+
+  const password: string = await rsaServiceHelper.decrypt(encryptedPassword);
+  await passwordServiceHelper.checkPassword(password, user.password);
+  user.password = '';
+
+  return user;
+}
+
+async function getUser(userId: string): Promise<User> {
+  const user: User | null = await UserDb.getUserById(userId);
+
+  if (!user) {
+    throw new CustomError(errorCode.USER_NOT_FOUND, 'User not found');
+  }
+
+  return user;
+}
+
+export default {
+  register,
+  login,
+  getUser,
+};

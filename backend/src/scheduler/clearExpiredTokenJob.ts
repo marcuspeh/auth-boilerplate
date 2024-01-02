@@ -3,11 +3,10 @@ import {CronJob} from 'cron';
 import TokenService from '../services/tokenService';
 
 const clearExpiredTokenJob = new CronJob(
-  '0 * * * * *', // cronTime
+  '0 * * * * *', //y cronTime
   () => {
     console.log('Invalidating expired tokens');
-    const tokenService: TokenService = new TokenService();
-    tokenService.invalidateExpiredToken();
+    TokenService.invalidateExpiredToken();
   }, // onTick
   null, // onComplete
   true // start

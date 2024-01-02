@@ -35,13 +35,13 @@ export default class Token {
   isValid: boolean;
 
   @IsDefined()
-  @Column()
+  @Column({type: 'timestamptz'})
   expiryDate: Date;
 
-  @CreateDateColumn()
+  @CreateDateColumn({type: 'timestamptz'})
   public createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({type: 'timestamptz'})
   public updatedAt: Date;
 
   @BeforeUpdate()

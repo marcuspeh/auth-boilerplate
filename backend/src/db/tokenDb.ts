@@ -5,68 +5,63 @@ import Token from '../entity/token';
 import {TOKEN_TYPE} from '../enum/tokenType';
 import User from '../entity/user';
 
-export interface ITokenDb {
-  createToken: (
-    user: User,
-    tokenType: TOKEN_TYPE,
-    expiryTimeFromNow: number
-  ) => Promise<Token>;
-  getToken: (tokenId: string) => Promise<Token | null>;
-  saveToken: (token: Token) => Promise<Token>;
-  invalidateToken: (userId: string, tokenType: TOKEN_TYPE) => Promise<void>;
+const tokenRepo = dataSource.getRepository(Token);
+
+async function createToken(
+  user: User,
+  tokenType: TOKEN_TYPE,
+  expiryTimeFromNow: number
+): Promise<Token> {
+  const token: Token = tokenRepo.create({
+    user: user,
+    type: tokenType,
+    expiryDate: moment().add(expiryTimeFromNow, 'second'),
+  });
+
+  const savedToken: Token = await tokenRepo.save(token);
+  return savedToken;
 }
 
-export class TokenDb implements ITokenDb {
-  tokenRepo = dataSource.getRepository(Token);
+async function getToken(tokenId: string): Promise<Token | null> {
+  const token: Token | null = await tokenRepo
+    .createQueryBuilder('token')
+    .select('token')
+    .leftJoinAndSelect('token.user', 'user')
+    .where('token.id = :id', {id: tokenId})
+    .getOne();
 
-  public async createToken(
-    user: User,
-    tokenType: TOKEN_TYPE,
-    expiryTimeFromNow: number
-  ): Promise<Token> {
-    const token: Token = this.tokenRepo.create({
-      user: user,
-      type: tokenType,
-      expiryDate: moment().add(expiryTimeFromNow),
-    });
-
-    const savedToken: Token = await this.tokenRepo.save(token);
-    return savedToken;
-  }
-
-  public async getToken(tokenId: string): Promise<Token | null> {
-    const token: Token | null = await this.tokenRepo
-      .createQueryBuilder('token')
-      .select('token')
-      .leftJoinAndSelect('token.user', 'user')
-      .where('token.id = :id', {id: tokenId})
-      .getOne();
-
-    return token;
-  }
-
-  public async saveToken(token: Token): Promise<Token> {
-    const savedToken: Token = await this.tokenRepo.save(token);
-    return savedToken;
-  }
-
-  public async invalidateToken(
-    userId: string,
-    tokenType: TOKEN_TYPE
-  ): Promise<void> {
-    await this.tokenRepo.update(
-      {user: {id: userId}, type: tokenType, isValid: true},
-      {isValid: false}
-    );
-  }
-
-  public async invalidateExpiredToken(): Promise<void> {
-    await this.tokenRepo
-      .createQueryBuilder('token')
-      .update(Token)
-      .set({isValid: false})
-      .where('expiryDate < :time', {time: moment()})
-      .andWhere('isValid = true')
-      .execute();
-  }
+  return token;
 }
+
+async function saveToken(token: Token): Promise<Token> {
+  const savedToken: Token = await tokenRepo.save(token);
+  return savedToken;
+}
+
+async function invalidateToken(
+  userId: string,
+  tokenType: TOKEN_TYPE
+): Promise<void> {
+  await tokenRepo.update(
+    {user: {id: userId}, type: tokenType, isValid: true},
+    {isValid: false}
+  );
+}
+
+async function invalidateExpiredToken(): Promise<void> {
+  await tokenRepo
+    .createQueryBuilder('token')
+    .update(Token)
+    .set({isValid: false})
+    .where('expiryDate < :time', {time: moment()})
+    .andWhere('isValid = true')
+    .execute();
+}
+
+export default {
+  createToken,
+  getToken,
+  saveToken,
+  invalidateToken,
+  invalidateExpiredToken,
+};
