@@ -29,12 +29,12 @@
     "ts-jest": "^29.1.1"
   },
   "dependencies": {
-    "@koa/cors": "^4.0.0",
+    "@koa/cors": "^5.0.0",
     "@types/bcryptjs": "^2.4.2",
     "@types/cors": "^2.8.13",
     "@types/jsonwebtoken": "^9.0.2",
     "@types/koa": "^2.13.6",
-    "@types/koa__cors": "^4.0.0",
+    "@types/koa__cors": "^5.0.0",
     "@types/koa-bodyparser": "^4.3.10",
     "@types/koa-cookie": "^1.0.0",
     "@types/koa-router": "^7.4.4",
