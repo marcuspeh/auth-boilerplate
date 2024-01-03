@@ -16,7 +16,8 @@
     "create-migration": "npm run typeorm migration:generate -n ./src/migration/AddUserAndTokenTable",
     "migration": "npm run typeorm migration:run",
     "revert": "npm run tsc && ./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:revert",
-    "test": "jest"
+    "test": "jest",
+    "coverage": "jest --coverage"
   },
   "keywords": [],
   "author": "marcuspeh",
