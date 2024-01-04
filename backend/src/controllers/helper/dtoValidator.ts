@@ -7,7 +7,7 @@ import {errorCode} from '../../errors/errorCode';
 
 // Referenced https://medium.com/@saman.ghm/validation-and-conversion-request-body-in-one-line-for-node-js-with-typescript-6adfac0ccd0a
 async function inputValidate(dto: any, input: any): Promise<any> {
-  const apiDto = plainToInstance(dto || constant.EMPTY_JSON, input);
+  const apiDto = plainToInstance(dto, input || constant.EMPTY_JSON);
 
   try {
     await validate(apiDto, {forbidUnknownValues: true}).then(err => {

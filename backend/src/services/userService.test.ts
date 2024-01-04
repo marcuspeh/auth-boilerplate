@@ -6,7 +6,7 @@ import User from '../entity/user';
 import userDb from '../db/userDb';
 import userService from './userService';
 
-jest.mock('../db/tokenDb', () => ({}));
+jest.mock('../db/userDb', () => ({}));
 jest.mock('./helper/rsaServiceHelper', () => ({}));
 jest.mock('./helper/passwordServiceHelper', () => ({}));
 
@@ -98,5 +98,32 @@ describe('login', () => {
     );
 
     expect(userDb.getUserByEmail).toHaveBeenCalledWith(email);
+  });
+});
+
+describe('getUser', () => {
+  it('valid, user is present', async () => {
+    const user = new User();
+    user.id = 'userId';
+
+    userDb.getUserById = jest.fn().mockResolvedValue(user);
+
+    const result = await userService.getUser(user.id);
+
+    expect(result).toBe(user);
+
+    expect(userDb.getUserById).toHaveBeenCalledWith(user.id);
+  });
+
+  it('invalid, user doesnt exists', async () => {
+    const userId = 'userId';
+
+    userDb.getUserById = jest.fn().mockResolvedValue(null);
+
+    await expect(() => userService.getUser(userId)).rejects.toThrow(
+      new CustomError(errorCode.USER_NOT_FOUND, 'User not found')
+    );
+
+    expect(userDb.getUserById).toHaveBeenCalledWith(userId);
   });
 });

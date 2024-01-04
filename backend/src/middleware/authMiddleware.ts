@@ -20,7 +20,7 @@ const validateToken = async (
 
   let payload;
   try {
-    payload = jwt.verify(
+    payload = await jwt.verify(
       token,
       process.env.JWT_SECRET || constant.EMPTY_STRING
     );

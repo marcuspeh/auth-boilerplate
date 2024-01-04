@@ -21,6 +21,21 @@ describe('isValid', () => {
     expect(result).toBe(true);
   });
 
+  it('valid, token is valid and not expired, err thrown set to true', async () => {
+    const validToken: Token = new Token();
+    validToken.expiryDate = moment().add(1, 'day').toDate();
+    validToken.type = TOKEN_TYPE.USER_TOKEN;
+    validToken.isValid = true;
+
+    const result = await tokenServiceHelper.isValid(
+      validToken,
+      TOKEN_TYPE.USER_TOKEN,
+      true
+    );
+
+    expect(result).toBe(true);
+  });
+
   it('valid, invalid token without error', async () => {
     const invalidToken: Token = new Token();
     invalidToken.type = TOKEN_TYPE.USER_TOKEN;

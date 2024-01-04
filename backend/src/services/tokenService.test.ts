@@ -1,3 +1,4 @@
+import constant from '../constant';
 import CustomError from '../errors/customError';
 import {errorCode} from '../errors/errorCode';
 import jwtServiceHelper from './helper/jwtServiceHelper';
@@ -9,12 +10,11 @@ import tokenServiceHelper from './helper/tokenServiceHelper';
 import User from '../entity/user';
 
 jest.mock('../db/tokenDb', () => ({}));
-jest.mock('../db/userDb', () => ({}));
 jest.mock('./helper/jwtServiceHelper', () => ({}));
 jest.mock('./helper/tokenServiceHelper', () => ({}));
 
 describe('generateUserToken', () => {
-  it('valid, generated user token', async () => {
+  it('valid, generated user token with env', async () => {
     const user = new User();
     user.id = 'userId';
     const token = new Token();
@@ -39,6 +39,33 @@ describe('generateUserToken', () => {
       user,
       TOKEN_TYPE.USER_TOKEN,
       expiry
+    );
+  });
+
+  it('valid, generated user token with env', async () => {
+    const user = new User();
+    user.id = 'userId';
+    const token = new Token();
+    token.user = user;
+    const tokenString = 'tokenString';
+    process.env.MAX_USER_TOKEN_VALIDITY_SECONDS = undefined;
+
+    tokenDb.invalidateToken = jest.fn();
+    tokenDb.createToken = jest.fn().mockResolvedValue(token);
+    jwtServiceHelper.signJwtToken = jest.fn().mockResolvedValue(tokenString);
+
+    const userToken = await tokenService.generateUserToken(user);
+
+    expect(userToken).toBe(tokenString);
+
+    expect(tokenDb.invalidateToken).toHaveBeenCalledWith(
+      user.id,
+      TOKEN_TYPE.USER_TOKEN
+    );
+    expect(tokenDb.createToken).toHaveBeenCalledWith(
+      user,
+      TOKEN_TYPE.USER_TOKEN,
+      constant.DEFAULT_TOKEN_EXPIRY_SECONDS
     );
   });
 });
