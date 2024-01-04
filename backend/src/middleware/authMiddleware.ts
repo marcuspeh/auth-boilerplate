@@ -53,7 +53,7 @@ const validateCsrf = (tokenCsrf: any, token: any) => {
 };
 
 const auth = async (ctx: Context, next: any) => {
-  const token = ctx.cookies.get('GIN');
+  const token = ctx.cookies.get(constant.JWT_TOKEN_LABEL);
   const tokenCsrf = ctx.request.header.tonic;
 
   validateCsrf(tokenCsrf, token);

@@ -35,7 +35,7 @@ async function login(ctx: Context) {
   const user: User = await UserService.login(apiDto.email, apiDto.password);
   const jwtUserToken: string = await TokenService.generateUserToken(user);
 
-  ctx.cookies.set('GIN', jwtUserToken, {
+  ctx.cookies.set(constant.JWT_TOKEN_LABEL, jwtUserToken, {
     httpOnly: true,
     secure: process.env.ENVIRONMENT !== 'dev',
     sameSite: 'lax',
@@ -55,8 +55,7 @@ async function logout(ctx: Context) {
 
   await TokenService.invalidateToken(userId, TOKEN_TYPE.USER_TOKEN);
 
-  ctx.cookies.set('GIN', undefined);
-  ctx.cookies.set('TONIC', undefined);
+  ctx.cookies.set(constant.JWT_TOKEN_LABEL, undefined);
   ctx.body = {
     message: 'Goodbye',
   };

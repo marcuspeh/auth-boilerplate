@@ -1,6 +1,6 @@
 import constant from '../constant';
 import {errorCode} from './errorCode';
-import logger from '../middleware/logger';
+import logger from '../utils/logger';
 
 export default class CustomError extends Error {
   public status: number;

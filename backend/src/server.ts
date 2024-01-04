@@ -3,7 +3,7 @@ require('./scheduler/index');
 
 import app from './app';
 import {dataSource} from './data-source';
-import logger from './middleware/logger';
+import logger from './utils/logger';
 
 dataSource
   .initialize()
