@@ -2,7 +2,7 @@ import {Context} from 'koa';
 
 import {encryptionDTO, hashingDTO} from './apiSchemas/cryptoDTO';
 import constant from '../constant';
-import CryptoService from '../services/cryptoService';
+import cryptoService from '../services/cryptoService';
 import dtoValidator from './helper/dtoValidator';
 
 async function getPublicKey(ctx: Context) {
@@ -19,7 +19,7 @@ async function encrypt(ctx: Context) {
     ctx.request.body
   );
 
-  const ciphertext = await CryptoService.encrypt(apiDto.text);
+  const ciphertext = await cryptoService.encrypt(apiDto.text);
 
   ctx.body = {
     ciphertext: ciphertext,
@@ -32,7 +32,7 @@ async function decrypt(ctx: Context) {
     ctx.request.body
   );
 
-  const plaintext = await CryptoService.decrypt(apiDto.text);
+  const plaintext = await cryptoService.decrypt(apiDto.text);
 
   ctx.body = {
     plaintext: plaintext,
@@ -42,7 +42,7 @@ async function decrypt(ctx: Context) {
 async function hashPasword(ctx: Context) {
   const apiDto = await dtoValidator.inputValidate(hashingDTO, ctx.request.body);
 
-  const passwordHash = await CryptoService.hashPassword(apiDto.password);
+  const passwordHash = await cryptoService.hashPassword(apiDto.password);
 
   ctx.body = {
     passwordHash: passwordHash,
@@ -52,7 +52,7 @@ async function hashPasword(ctx: Context) {
 async function checkPassword(ctx: Context) {
   const apiDto = await dtoValidator.inputValidate(hashingDTO, ctx.request.body);
 
-  await CryptoService.checkPassword(apiDto.password, apiDto.passwordHash);
+  await cryptoService.checkPassword(apiDto.password, apiDto.passwordHash);
 
   ctx.body = {
     message: 'Success',
