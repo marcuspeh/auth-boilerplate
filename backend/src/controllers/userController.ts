@@ -1,6 +1,10 @@
 import {Context} from 'koa';
 
-import {loginUserDTO, registerUserDTO} from './apiSchemas/userDTO';
+import {
+  loginUserDTO,
+  registerUserDTO,
+  updatePasswordDTO,
+} from './apiSchemas/userDTO';
 import constant from '../constant';
 import dtoValidator from './helper/dtoValidator';
 import {TOKEN_TYPE} from '../enum/tokenType';
@@ -61,6 +65,33 @@ async function logout(ctx: Context) {
   };
 }
 
+async function updatePassword(ctx: Context) {
+  const apiDto = await dtoValidator.inputValidate(
+    updatePasswordDTO,
+    ctx.request.body
+  );
+
+  const userId: string =
+    ctx.request?.header?.userId?.toString() || constant.EMPTY_STRING;
+  const user: User = await userService.updatePassword(
+    userId,
+    apiDto.originalPassword,
+    apiDto.newPassword
+  );
+
+  await tokenService.invalidateToken(userId, TOKEN_TYPE.USER_TOKEN);
+  const jwtUserToken: string = await tokenService.generateUserToken(user);
+
+  ctx.cookies.set(constant.JWT_TOKEN_LABEL, jwtUserToken, {
+    httpOnly: true,
+    secure: process.env.ENVIRONMENT !== 'dev',
+    sameSite: 'lax',
+  });
+  ctx.body = {
+    message: 'Updated',
+  };
+}
+
 async function checkAuthentication(ctx: Context) {
   ctx.body = {
     message: 'Authenticated',
@@ -72,4 +103,5 @@ export default {
   login,
   logout,
   checkAuthentication,
+  updatePassword,
 };

@@ -104,3 +104,26 @@ describe('checkPassword', () => {
     expect(bcrypt.compare).toHaveBeenCalledWith(password, passwordHash);
   });
 });
+
+describe('checkPasswordRequiremets', () => {
+  it('valid, requiremens met', () => {
+    const password = 'password';
+
+    expect(() =>
+      passwordServiceHelper.checkPasswordRequirements(password)
+    ).not.toThrow();
+  });
+
+  it('valid, requiremens not met', async () => {
+    const password = '';
+
+    expect(() =>
+      passwordServiceHelper.checkPasswordRequirements(password)
+    ).toThrow(
+      new CustomError(
+        errorCode.PASSWORD_REQUIREMENT_NOT_MET,
+        'Password length must be at least 8'
+      )
+    );
+  });
+});

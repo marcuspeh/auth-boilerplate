@@ -24,6 +24,7 @@ describe('register', () => {
     userDb.getUserByEmail = jest.fn().mockResolvedValue(null);
     userDb.createUser = jest.fn().mockResolvedValue(user);
     rsaServiceHelper.decrypt = jest.fn().mockResolvedValue(password);
+    passwordServiceHelper.checkPasswordRequirements = jest.fn();
     passwordServiceHelper.hashPassword = jest
       .fn()
       .mockResolvedValue(passwordHash);
@@ -35,6 +36,9 @@ describe('register', () => {
     expect(userDb.getUserByEmail).toHaveBeenCalledWith(email);
     expect(userDb.createUser).toHaveBeenCalledWith(name, email, passwordHash);
     expect(rsaServiceHelper.decrypt).toHaveBeenCalledWith(encryptedPassword);
+    expect(
+      passwordServiceHelper.checkPasswordRequirements
+    ).toHaveBeenCalledWith(password);
     expect(passwordServiceHelper.hashPassword).toHaveBeenCalledWith(password);
   });
 
@@ -53,6 +57,32 @@ describe('register', () => {
     );
 
     expect(userDb.getUserByEmail).toHaveBeenCalledWith(email);
+  });
+
+  it('invalid, password requirement not met', async () => {
+    const name = 'name';
+    const email = 'email';
+    const encryptedPassword = 'encryptedPassword';
+    const password = '';
+    const user = new User();
+    user.name = name;
+    user.email = email;
+
+    userDb.getUserByEmail = jest.fn().mockResolvedValue(null);
+    rsaServiceHelper.decrypt = jest.fn().mockResolvedValue(password);
+    passwordServiceHelper.checkPasswordRequirements = jest.fn(() => {
+      throw new CustomError(errorCode.PASSWORD_REQUIREMENT_NOT_MET);
+    });
+
+    await expect(() =>
+      userService.register(name, email, encryptedPassword)
+    ).rejects.toThrow(new CustomError(errorCode.PASSWORD_REQUIREMENT_NOT_MET));
+
+    expect(userDb.getUserByEmail).toHaveBeenCalledWith(email);
+    expect(rsaServiceHelper.decrypt).toHaveBeenCalledWith(encryptedPassword);
+    expect(
+      passwordServiceHelper.checkPasswordRequirements
+    ).toHaveBeenCalledWith(password);
   });
 });
 
@@ -125,5 +155,126 @@ describe('getUser', () => {
     );
 
     expect(userDb.getUserById).toHaveBeenCalledWith(userId);
+  });
+});
+
+describe('updatePassword', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('valid,', async () => {
+    const user = new User();
+    user.id = 'userId';
+    user.password = 'password';
+    const originalPasswordHash = user.password;
+    const originalPasswordEncrypted = 'originalPasswordEncrypted';
+    const originalPasswordDecrypted = 'originalPasswordDecrypted';
+    const newPasswordEncrypted = 'newPasswordEncrypted';
+    const newPasswordDecrypted = 'newPasswordDecrypted';
+    const newPasswordHash = 'newPasswordHash';
+
+    userDb.getUserById = jest.fn().mockResolvedValue(user);
+    rsaServiceHelper.decrypt = jest
+      .fn()
+      .mockResolvedValueOnce(originalPasswordDecrypted)
+      .mockResolvedValueOnce(newPasswordDecrypted);
+    passwordServiceHelper.checkPassword = jest.fn();
+    passwordServiceHelper.checkPasswordRequirements = jest.fn();
+    passwordServiceHelper.hashPassword = jest
+      .fn()
+      .mockResolvedValue(newPasswordHash);
+    userDb.saveUser = jest.fn();
+
+    const result = await userService.updatePassword(
+      user.id,
+      originalPasswordEncrypted,
+      newPasswordEncrypted
+    );
+
+    expect(result).toBe(user);
+
+    expect(userDb.getUserById).toHaveBeenCalledWith(user.id);
+    expect(rsaServiceHelper.decrypt).toHaveBeenNthCalledWith(
+      1,
+      originalPasswordEncrypted
+    );
+    expect(passwordServiceHelper.checkPassword).toHaveBeenCalledWith(
+      originalPasswordDecrypted,
+      originalPasswordHash
+    );
+    expect(rsaServiceHelper.decrypt).toHaveBeenNthCalledWith(
+      2,
+      newPasswordEncrypted
+    );
+    expect(
+      passwordServiceHelper.checkPasswordRequirements
+    ).toHaveBeenCalledWith(newPasswordDecrypted);
+    expect(passwordServiceHelper.hashPassword).toHaveBeenCalledWith(
+      newPasswordDecrypted
+    );
+    expect(userDb.saveUser).toHaveBeenCalledWith(user);
+  });
+
+  it('invalid, user doesnt exists', async () => {
+    const userId = 'userId';
+    const originalPassword = 'originalPassword';
+    const newPassword = 'newPassword';
+
+    userDb.getUserById = jest.fn().mockResolvedValue(null);
+
+    await expect(() =>
+      userService.updatePassword(userId, originalPassword, newPassword)
+    ).rejects.toThrow(
+      new CustomError(errorCode.USER_NOT_FOUND, 'User not found')
+    );
+
+    expect(userDb.getUserById).toHaveBeenCalledWith(userId);
+  });
+
+  it('invalid, password requirement not met', async () => {
+    const user = new User();
+    user.id = 'userId';
+    user.password = 'password';
+    const originalPasswordHash = user.password;
+    const originalPasswordEncrypted = 'originalPasswordEncrypted';
+    const originalPasswordDecrypted = 'originalPasswordDecrypted';
+    const newPasswordEncrypted = 'newPasswordEncrypted';
+    const newPasswordDecrypted = 'newPasswordDecrypted';
+
+    userDb.getUserById = jest.fn().mockResolvedValue(user);
+    rsaServiceHelper.decrypt = jest
+      .fn()
+      .mockResolvedValueOnce(originalPasswordDecrypted)
+      .mockResolvedValueOnce(newPasswordDecrypted);
+    passwordServiceHelper.checkPassword = jest.fn();
+    passwordServiceHelper.checkPasswordRequirements = jest.fn(() => {
+      throw new CustomError(errorCode.PASSWORD_REQUIREMENT_NOT_MET);
+    });
+
+    await expect(() =>
+      userService.updatePassword(
+        user.id,
+        originalPasswordEncrypted,
+        newPasswordEncrypted
+      )
+    ).rejects.toThrow(new CustomError(errorCode.PASSWORD_REQUIREMENT_NOT_MET));
+
+    expect(userDb.getUserById).toHaveBeenCalledWith(user.id);
+    expect(rsaServiceHelper.decrypt).toHaveBeenNthCalledWith(
+      1,
+      originalPasswordEncrypted
+    );
+    expect(passwordServiceHelper.checkPassword).toHaveBeenCalledWith(
+      originalPasswordDecrypted,
+      originalPasswordHash
+    );
+    expect(rsaServiceHelper.decrypt).toHaveBeenNthCalledWith(
+      2,
+      newPasswordEncrypted
+    );
+    expect(
+      passwordServiceHelper.checkPasswordRequirements
+    ).toHaveBeenCalledWith(newPasswordDecrypted);
   });
 });

@@ -15,6 +15,9 @@ router.post('/login', async (ctx: Context) => {
 router.post('/logout', auth, async (ctx: Context) => {
   await userController.logout(ctx);
 });
+router.post('/updatePassword', auth, async (ctx: Context) => {
+  await userController.updatePassword(ctx);
+});
 router.get('/checkAuth', auth, async (ctx: Context) => {
   await userController.checkAuthentication(ctx);
 });

@@ -21,7 +21,27 @@ async function checkPassword(
   }
 }
 
+/**
+Requirements for password:
+1) Length more than 8
+*/
+function checkPasswordRequirements(password: string): void {
+  passwordLengthMoreThan8(password);
+}
+
+function passwordLengthMoreThan8(password: string): void {
+  if (password.length >= 8) {
+    return;
+  }
+
+  throw new CustomError(
+    errorCode.PASSWORD_REQUIREMENT_NOT_MET,
+    'Password length must be at least 8'
+  );
+}
+
 export default {
   hashPassword,
   checkPassword,
+  checkPasswordRequirements,
 };

@@ -23,3 +23,13 @@ export class loginUserDTO {
   @IsString()
   password: string;
 }
+
+export class updatePasswordDTO {
+  @IsDefined()
+  @IsString()
+  originalPassword: string;
+
+  @IsDefined()
+  @IsString()
+  newPassword: string;
+}

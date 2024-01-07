@@ -22,6 +22,7 @@ APITOKEN: "VERY SECRET KEY"
 | /api/auth/register | POST | ALL | Registers a new user |
 | /api/auth/login | POST | ALL | Logs in a user |
 | /api/auth/logout | POST | ALL | Logout a user |
+| /api/auth/updatePassword | POST | ALL | Update user's password |
 | /api/auth/checkAuth | GET | ALL | Check if user is authenticated |
 
 ---
@@ -238,6 +239,36 @@ None
 ```
 
 ### Errors: 
+E0300: TOKEN_EXPIRED
+E0301: TOKEN_INVALID
+E0302: TOKEN_DOES_NOT_EXISTS
+E0303: CSRF_DOES_NOT_EXISTS
+E0304: CSRF_MISMATCH
+---
+
+## API: /api/auth/updatePassword
+
+### Description: 
+Update password of user
+
+### Request body:
+```json
+{
+    "originalPassword": "original password",
+    "newPassword": "new password"
+}
+```
+
+### Reponse:
+```json
+{
+    "message": "Updated",
+}
+```
+
+### Errors: 
+E0010: Request body format is wrong
+E0200: Credentials invalid
 E0300: TOKEN_EXPIRED
 E0301: TOKEN_INVALID
 E0302: TOKEN_DOES_NOT_EXISTS

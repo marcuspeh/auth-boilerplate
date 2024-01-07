@@ -1,6 +1,10 @@
 import {Context} from 'koa';
 
-import {loginUserDTO, registerUserDTO} from './apiSchemas/userDTO';
+import {
+  loginUserDTO,
+  registerUserDTO,
+  updatePasswordDTO,
+} from './apiSchemas/userDTO';
 import constant from '../constant';
 import dtoValidator from './helper/dtoValidator';
 import {TOKEN_TYPE} from '../enum/tokenType';
@@ -202,6 +206,140 @@ describe('logout', () => {
     expect((context as Context).cookies.set).toHaveBeenCalledWith(
       constant.JWT_TOKEN_LABEL,
       undefined
+    );
+  });
+});
+
+describe('updatePassword', () => {
+  let previousEnv: string | undefined = undefined;
+
+  beforeAll(() => {
+    previousEnv = process.env.ENVIRONMENT;
+  });
+
+  afterAll(() => {
+    process.env.ENVIRONMENT = previousEnv;
+  });
+
+  it('valid, env is dev', async () => {
+    process.env.ENVIRONMENT = 'dev';
+    const originalPassword = 'originalPassword';
+    const newPassword = 'newPassword';
+    const jwtString = 'jwtString';
+    const user = new User();
+    user.id = 'userId';
+
+    const request = {
+      originalPassword: originalPassword,
+      newPassword: newPassword,
+    };
+    const expectedBody = {
+      message: 'Updated',
+    };
+
+    dtoValidator.inputValidate = jest.fn().mockResolvedValue(request);
+    userService.updatePassword = jest.fn().mockResolvedValue(user);
+    tokenService.invalidateToken = jest.fn();
+    tokenService.generateUserToken = jest.fn().mockResolvedValue(jwtString);
+
+    const context: unknown = {
+      cookies: {
+        set: jest.fn(),
+      },
+      request: {
+        header: {
+          userId: user.id,
+        },
+        body: request,
+      },
+    };
+    await userController.updatePassword(context as Context);
+
+    expect((context as Context).body).toStrictEqual(expectedBody);
+
+    expect(dtoValidator.inputValidate).toHaveBeenCalledWith(
+      updatePasswordDTO,
+      request
+    );
+    expect(userService.updatePassword).toHaveBeenCalledWith(
+      user.id,
+      originalPassword,
+      newPassword
+    );
+    expect(tokenService.invalidateToken).toHaveBeenCalledWith(
+      user.id,
+      TOKEN_TYPE.USER_TOKEN
+    );
+    expect(tokenService.generateUserToken).toHaveBeenCalledWith(user);
+    expect((context as Context).cookies.set).toHaveBeenCalledWith(
+      constant.JWT_TOKEN_LABEL,
+      jwtString,
+      {
+        httpOnly: true,
+        secure: false,
+        sameSite: 'lax',
+      }
+    );
+  });
+
+  it('valid, env is not dev', async () => {
+    process.env.ENVIRONMENT = 'other';
+    const originalPassword = 'originalPassword';
+    const newPassword = 'newPassword';
+    const jwtString = 'jwtString';
+    const user = new User();
+    user.id = 'userId';
+
+    const request = {
+      originalPassword: originalPassword,
+      newPassword: newPassword,
+    };
+    const expectedBody = {
+      message: 'Updated',
+    };
+
+    dtoValidator.inputValidate = jest.fn().mockResolvedValue(request);
+    userService.updatePassword = jest.fn().mockResolvedValue(user);
+    tokenService.invalidateToken = jest.fn();
+    tokenService.generateUserToken = jest.fn().mockResolvedValue(jwtString);
+
+    const context: unknown = {
+      cookies: {
+        set: jest.fn(),
+      },
+      request: {
+        header: {
+          userId: user.id,
+        },
+        body: request,
+      },
+    };
+    await userController.updatePassword(context as Context);
+
+    expect((context as Context).body).toStrictEqual(expectedBody);
+
+    expect(dtoValidator.inputValidate).toHaveBeenCalledWith(
+      updatePasswordDTO,
+      request
+    );
+    expect(userService.updatePassword).toHaveBeenCalledWith(
+      user.id,
+      originalPassword,
+      newPassword
+    );
+    expect(tokenService.invalidateToken).toHaveBeenCalledWith(
+      user.id,
+      TOKEN_TYPE.USER_TOKEN
+    );
+    expect(tokenService.generateUserToken).toHaveBeenCalledWith(user);
+    expect((context as Context).cookies.set).toHaveBeenCalledWith(
+      constant.JWT_TOKEN_LABEL,
+      jwtString,
+      {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'lax',
+      }
     );
   });
 });
