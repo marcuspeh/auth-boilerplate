@@ -2,7 +2,8 @@
   "scripts": {
     "start-backend":  "cd backend && npm run dev",
     "start-frontend": "cd frontend && npm run dev",
-    "dev": "concurrently --kill-others \"npm run start-backend\" \"npm run start-frontend\""
+    "dev": "concurrently --kill-others \"npm run start-backend\" \"npm run start-frontend\"",
+    "install": "npm install && cd backend && npm install && cd ../frontend && npm install"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
