@@ -13,7 +13,7 @@
     "serve": "ts-node src/server.ts",
     "start": "npm install && npm run migration && npm run serve",
     "typeorm": "typeorm-ts-node-esm -d ./src/data-source.ts",
-    "create-migration": "npm run typeorm migration:generate -n ./src/migration/AddUserAndTokenTable",
+    "create-migration": "npm run typeorm migration:generate -n ./src/migration/AddForgetPasswordTokenEnum",
     "migration": "npm run typeorm migration:run",
     "revert": "npm run tsc && ./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:revert",
     "test": "jest",

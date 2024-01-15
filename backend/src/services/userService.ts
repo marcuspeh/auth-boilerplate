@@ -54,8 +54,18 @@ async function decryptAndCheckPassword(
   await passwordServiceHelper.checkPassword(password, hashedPassword);
 }
 
-async function getUser(userId: string): Promise<User> {
+async function getUserById(userId: string): Promise<User> {
   const user: User | null = await userDb.getUserById(userId);
+
+  if (!user) {
+    throw new CustomError(errorCode.USER_NOT_FOUND, 'User not found');
+  }
+
+  return user;
+}
+
+async function getUserByEmail(email: string): Promise<User> {
+  const user: User | null = await userDb.getUserByEmail(email);
 
   if (!user) {
     throw new CustomError(errorCode.USER_NOT_FOUND, 'User not found');
@@ -69,7 +79,7 @@ async function updatePassword(
   originalPassword: string,
   newPassword: string
 ): Promise<User> {
-  const user: User = await getUser(userId);
+  const user: User = await getUserById(userId);
   await decryptAndCheckPassword(originalPassword, user.password);
 
   const passwordHash: string = await decryptAndHashPassword(newPassword);
@@ -79,9 +89,22 @@ async function updatePassword(
   return user;
 }
 
+async function resetPassword(
+  userId: string,
+  newPassword: string
+): Promise<void> {
+  const user: User = await getUserById(userId);
+
+  const passwordHash: string = await decryptAndHashPassword(newPassword);
+  user.password = passwordHash;
+  await userDb.saveUser(user);
+}
+
 export default {
   register,
   login,
-  getUser,
+  getUserById,
+  getUserByEmail,
   updatePassword,
+  resetPassword,
 };

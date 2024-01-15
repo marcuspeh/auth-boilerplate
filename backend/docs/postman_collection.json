@@ -214,6 +214,26 @@
 		{
 			"name": "Check authentication",
 			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "apitoken",
+						"value": "{{API_TOKEN}}",
+						"type": "text"
+					},
+					{
+						"key": "TONIC",
+						"value": "{{TONIC}}",
+						"type": "text"
+					}
+				],
+				"url": "{{API_URL}}/api/auth/checkAuth"
+			},
+			"response": []
+		},
+		{
+			"name": "Update password",
+			"request": {
 				"method": "POST",
 				"header": [
 					{
@@ -227,7 +247,86 @@
 						"type": "text"
 					}
 				],
-				"url": "{{API_URL}}/api/auth/logout"
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"newPassword\": \"nUqGUJSn6iCrFP4yk8Xk8AADvYSel/zwcNE2KqsvxvK3Unm5EyPD27QmLUkGYzcegysuM1W4Mpq7O+44Sbl8XVCsHCMJrjkJ2ua3eR8dCay9DJ0zVFyDhdTZtP66kGUaJNv1yswfxrjKo2tWg3bzx7pI84GZXl3wh95lx1nX2CE2o9sWrAMEAfSFSnzkx5yEgOPhUNlVO0CQCQdOBgr/6nmAi+k1lis/E2NQHRL+wEYnlZ0taRd84K1jB0174CokgIh8r/AXMUTY+Jq2TVJIZPOJr5YOQYOVh5fcZ6AXqxwha+ASdSRtfG+dR569z1ec90atTzdVGTi4nydtGd50kw==\",\r\n    \"originalPassword\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{API_URL}}/api/auth/updatePassword"
+			},
+			"response": []
+		},
+		{
+			"name": "Forget Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set('RESET_TOKEN', pm.response.json().code)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "apitoken",
+						"value": "{{API_TOKEN}}",
+						"type": "text"
+					},
+					{
+						"key": "TONIC",
+						"value": "{{TONIC}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"email@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{API_URL}}/api/auth/forgetPassword"
+			},
+			"response": []
+		},
+		{
+			"name": "Reset Password WIth Token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "apitoken",
+						"value": "{{API_TOKEN}}",
+						"type": "text"
+					},
+					{
+						"key": "TONIC",
+						"value": "{{TONIC}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"newPassword\": \"nUqGUJSn6iCrFP4yk8Xk8AADvYSel/zwcNE2KqsvxvK3Unm5EyPD27QmLUkGYzcegysuM1W4Mpq7O+44Sbl8XVCsHCMJrjkJ2ua3eR8dCay9DJ0zVFyDhdTZtP66kGUaJNv1yswfxrjKo2tWg3bzx7pI84GZXl3wh95lx1nX2CE2o9sWrAMEAfSFSnzkx5yEgOPhUNlVO0CQCQdOBgr/6nmAi+k1lis/E2NQHRL+wEYnlZ0taRd84K1jB0174CokgIh8r/AXMUTY+Jq2TVJIZPOJr5YOQYOVh5fcZ6AXqxwha+ASdSRtfG+dR569z1ec90atTzdVGTi4nydtGd50kw==\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{API_URL}}/api/auth/resetPassword/{{RESET_TOKEN}}"
 			},
 			"response": []
 		}

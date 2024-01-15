@@ -1,8 +1,10 @@
 import {Context} from 'koa';
 
 import {
+  forgetPasswordDTO,
   loginUserDTO,
   registerUserDTO,
+  resetPasswordDTO,
   updatePasswordDTO,
 } from './apiSchemas/userDTO';
 import constant from '../constant';
@@ -340,6 +342,144 @@ describe('updatePassword', () => {
         secure: true,
         sameSite: 'lax',
       }
+    );
+  });
+});
+
+describe('forgetPassword', () => {
+  let previousEnv: string | undefined = undefined;
+
+  beforeAll(() => {
+    previousEnv = process.env.ENVIRONMENT;
+  });
+
+  afterAll(() => {
+    process.env.ENVIRONMENT = previousEnv;
+  });
+
+  it('valid, env is dev', async () => {
+    process.env.ENVIRONMENT = 'dev';
+    const jwtString = 'jwtString';
+    const user = new User();
+    user.email = 'email';
+
+    const request = {
+      email: user.email,
+    };
+    const expectedBody = {
+      message: 'Email sent',
+      code: jwtString,
+    };
+
+    dtoValidator.inputValidate = jest.fn().mockResolvedValue(request);
+    userService.getUserByEmail = jest.fn().mockResolvedValue(user);
+    tokenService.generateForgetPasswordToken = jest
+      .fn()
+      .mockResolvedValue(jwtString);
+
+    const context: unknown = {
+      request: {
+        body: request,
+      },
+    };
+    await userController.forgetPassword(context as Context);
+
+    expect((context as Context).body).toStrictEqual(expectedBody);
+
+    expect(dtoValidator.inputValidate).toHaveBeenCalledWith(
+      forgetPasswordDTO,
+      request
+    );
+    expect(userService.getUserByEmail).toHaveBeenCalledWith(user.email);
+    expect(tokenService.generateForgetPasswordToken).toHaveBeenCalledWith(user);
+  });
+
+  it('valid, env is not dev', async () => {
+    process.env.ENVIRONMENT = 'other';
+    const jwtString = 'jwtString';
+    const user = new User();
+    user.email = 'email';
+
+    const request = {
+      email: user.email,
+    };
+    const expectedBody = {
+      message: 'Email sent',
+    };
+
+    dtoValidator.inputValidate = jest.fn().mockResolvedValue(request);
+    userService.getUserByEmail = jest.fn().mockResolvedValue(user);
+    tokenService.generateForgetPasswordToken = jest
+      .fn()
+      .mockResolvedValue(jwtString);
+
+    const context: unknown = {
+      request: {
+        body: request,
+      },
+    };
+    await userController.forgetPassword(context as Context);
+
+    expect((context as Context).body).toStrictEqual(expectedBody);
+
+    expect(dtoValidator.inputValidate).toHaveBeenCalledWith(
+      forgetPasswordDTO,
+      request
+    );
+    expect(userService.getUserByEmail).toHaveBeenCalledWith(user.email);
+    expect(tokenService.generateForgetPasswordToken).toHaveBeenCalledWith(user);
+  });
+});
+
+describe('resetPassword', () => {
+  it('valid', async () => {
+    const user = new User();
+    user.id = 'userId';
+    const token = 'token';
+    const newPassword = 'newPassword';
+
+    const request = {
+      newPassword: newPassword,
+    };
+    const expectedBody = {
+      message: 'Updated',
+    };
+
+    dtoValidator.inputValidate = jest.fn().mockResolvedValue(request);
+    tokenService.verifyResetPasswordToken = jest.fn().mockResolvedValue(user);
+    userService.resetPassword = jest.fn();
+    tokenService.invalidateToken = jest.fn();
+
+    const context: unknown = {
+      params: {
+        token: token,
+      },
+      request: {
+        body: request,
+      },
+    };
+    await userController.resetPassword(context as Context);
+
+    expect((context as Context).body).toStrictEqual(expectedBody);
+
+    expect(dtoValidator.inputValidate).toHaveBeenCalledWith(
+      resetPasswordDTO,
+      request
+    );
+    expect(tokenService.verifyResetPasswordToken).toHaveBeenCalledWith(token);
+    expect(userService.resetPassword).toHaveBeenCalledWith(
+      user.id,
+      newPassword
+    );
+    expect(tokenService.invalidateToken).toHaveBeenNthCalledWith(
+      1,
+      user.id,
+      TOKEN_TYPE.USER_TOKEN
+    );
+    expect(tokenService.invalidateToken).toHaveBeenNthCalledWith(
+      2,
+      user.id,
+      TOKEN_TYPE.FORGET_PASSWORD
     );
   });
 });

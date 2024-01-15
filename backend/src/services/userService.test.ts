@@ -131,14 +131,14 @@ describe('login', () => {
   });
 });
 
-describe('getUser', () => {
+describe('getUserById', () => {
   it('valid, user is present', async () => {
     const user = new User();
     user.id = 'userId';
 
     userDb.getUserById = jest.fn().mockResolvedValue(user);
 
-    const result = await userService.getUser(user.id);
+    const result = await userService.getUserById(user.id);
 
     expect(result).toBe(user);
 
@@ -150,11 +150,38 @@ describe('getUser', () => {
 
     userDb.getUserById = jest.fn().mockResolvedValue(null);
 
-    await expect(() => userService.getUser(userId)).rejects.toThrow(
+    await expect(() => userService.getUserById(userId)).rejects.toThrow(
       new CustomError(errorCode.USER_NOT_FOUND, 'User not found')
     );
 
     expect(userDb.getUserById).toHaveBeenCalledWith(userId);
+  });
+});
+
+describe('getUserByEmail', () => {
+  it('valid, user is present', async () => {
+    const user = new User();
+    user.email = 'email';
+
+    userDb.getUserByEmail = jest.fn().mockResolvedValue(user);
+
+    const result = await userService.getUserByEmail(user.email);
+
+    expect(result).toBe(user);
+
+    expect(userDb.getUserByEmail).toHaveBeenCalledWith(user.email);
+  });
+
+  it('invalid, user doesnt exists', async () => {
+    const email = 'email';
+
+    userDb.getUserByEmail = jest.fn().mockResolvedValue(null);
+
+    await expect(() => userService.getUserByEmail(email)).rejects.toThrow(
+      new CustomError(errorCode.USER_NOT_FOUND, 'User not found')
+    );
+
+    expect(userDb.getUserByEmail).toHaveBeenCalledWith(email);
   });
 });
 
@@ -225,6 +252,100 @@ describe('updatePassword', () => {
 
     await expect(() =>
       userService.updatePassword(userId, originalPassword, newPassword)
+    ).rejects.toThrow(
+      new CustomError(errorCode.USER_NOT_FOUND, 'User not found')
+    );
+
+    expect(userDb.getUserById).toHaveBeenCalledWith(userId);
+  });
+
+  it('invalid, password requirement not met', async () => {
+    const user = new User();
+    user.id = 'userId';
+    user.password = 'password';
+    const originalPasswordHash = user.password;
+    const originalPasswordEncrypted = 'originalPasswordEncrypted';
+    const originalPasswordDecrypted = 'originalPasswordDecrypted';
+    const newPasswordEncrypted = 'newPasswordEncrypted';
+    const newPasswordDecrypted = 'newPasswordDecrypted';
+
+    userDb.getUserById = jest.fn().mockResolvedValue(user);
+    rsaServiceHelper.decrypt = jest
+      .fn()
+      .mockResolvedValueOnce(originalPasswordDecrypted)
+      .mockResolvedValueOnce(newPasswordDecrypted);
+    passwordServiceHelper.checkPassword = jest.fn();
+    passwordServiceHelper.checkPasswordRequirements = jest.fn(() => {
+      throw new CustomError(errorCode.PASSWORD_REQUIREMENT_NOT_MET);
+    });
+
+    await expect(() =>
+      userService.updatePassword(
+        user.id,
+        originalPasswordEncrypted,
+        newPasswordEncrypted
+      )
+    ).rejects.toThrow(new CustomError(errorCode.PASSWORD_REQUIREMENT_NOT_MET));
+
+    expect(userDb.getUserById).toHaveBeenCalledWith(user.id);
+    expect(rsaServiceHelper.decrypt).toHaveBeenNthCalledWith(
+      1,
+      originalPasswordEncrypted
+    );
+    expect(passwordServiceHelper.checkPassword).toHaveBeenCalledWith(
+      originalPasswordDecrypted,
+      originalPasswordHash
+    );
+    expect(rsaServiceHelper.decrypt).toHaveBeenNthCalledWith(
+      2,
+      newPasswordEncrypted
+    );
+    expect(
+      passwordServiceHelper.checkPasswordRequirements
+    ).toHaveBeenCalledWith(newPasswordDecrypted);
+  });
+});
+
+describe('resetPassword', () => {
+  it('valid,', async () => {
+    const user = new User();
+    user.id = 'userId';
+    user.password = 'password';
+    const newPasswordEncrypted = 'newPasswordEncrypted';
+    const newPasswordDecrypted = 'newPasswordDecrypted';
+    const newPasswordHash = 'newPasswordHash';
+
+    userDb.getUserById = jest.fn().mockResolvedValue(user);
+    rsaServiceHelper.decrypt = jest
+      .fn()
+      .mockResolvedValueOnce(newPasswordDecrypted);
+    passwordServiceHelper.checkPasswordRequirements = jest.fn();
+    passwordServiceHelper.hashPassword = jest
+      .fn()
+      .mockResolvedValue(newPasswordHash);
+    userDb.saveUser = jest.fn();
+
+    await userService.resetPassword(user.id, newPasswordEncrypted);
+
+    expect(userDb.getUserById).toHaveBeenCalledWith(user.id);
+    expect(rsaServiceHelper.decrypt).toHaveBeenCalledWith(newPasswordEncrypted);
+    expect(
+      passwordServiceHelper.checkPasswordRequirements
+    ).toHaveBeenCalledWith(newPasswordDecrypted);
+    expect(passwordServiceHelper.hashPassword).toHaveBeenCalledWith(
+      newPasswordDecrypted
+    );
+    expect(userDb.saveUser).toHaveBeenCalledWith(user);
+  });
+
+  it('invalid, user doesnt exists', async () => {
+    const userId = 'userId';
+    const newPassword = 'newPassword';
+
+    userDb.getUserById = jest.fn().mockResolvedValue(null);
+
+    await expect(() =>
+      userService.resetPassword(userId, newPassword)
     ).rejects.toThrow(
       new CustomError(errorCode.USER_NOT_FOUND, 'User not found')
     );

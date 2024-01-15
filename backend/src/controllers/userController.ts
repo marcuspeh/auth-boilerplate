@@ -1,8 +1,10 @@
 import {Context} from 'koa';
 
 import {
+  forgetPasswordDTO,
   loginUserDTO,
   registerUserDTO,
+  resetPasswordDTO,
   updatePasswordDTO,
 } from './apiSchemas/userDTO';
 import constant from '../constant';
@@ -92,6 +94,47 @@ async function updatePassword(ctx: Context) {
   };
 }
 
+async function forgetPassword(ctx: Context) {
+  const apiDto = await dtoValidator.inputValidate(
+    forgetPasswordDTO,
+    ctx.request.body
+  );
+
+  const user: User = await userService.getUserByEmail(apiDto.email);
+  const jwtForgetPasswordToken: string =
+    await tokenService.generateForgetPasswordToken(user);
+
+  if (process.env.ENVIRONMENT !== 'dev') {
+    ctx.body = {
+      message: 'Email sent',
+    };
+    return;
+  }
+
+  // Need to send out email with jwtForgetPasswordToken
+  // TODO: Send email
+  ctx.body = {
+    message: 'Email sent',
+    code: jwtForgetPasswordToken,
+  };
+}
+
+async function resetPassword(ctx: Context) {
+  const apiDto = await dtoValidator.inputValidate(
+    resetPasswordDTO,
+    ctx.request.body
+  );
+
+  const user = await tokenService.verifyResetPasswordToken(ctx.params.token);
+  await userService.resetPassword(user.id, apiDto.newPassword);
+  await tokenService.invalidateToken(user.id, TOKEN_TYPE.USER_TOKEN);
+  await tokenService.invalidateToken(user.id, TOKEN_TYPE.FORGET_PASSWORD);
+
+  ctx.body = {
+    message: 'Updated',
+  };
+}
+
 async function checkAuthentication(ctx: Context) {
   ctx.body = {
     message: 'Authenticated',
@@ -104,4 +147,6 @@ export default {
   logout,
   checkAuthentication,
   updatePassword,
+  forgetPassword,
+  resetPassword,
 };

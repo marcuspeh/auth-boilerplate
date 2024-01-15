@@ -18,6 +18,12 @@ router.post('/logout', auth, async (ctx: Context) => {
 router.post('/updatePassword', auth, async (ctx: Context) => {
   await userController.updatePassword(ctx);
 });
+router.post('/forgetPassword', async (ctx: Context) => {
+  await userController.forgetPassword(ctx);
+});
+router.post('/resetPassword/:token', async (ctx: Context) => {
+  await userController.resetPassword(ctx);
+});
 router.get('/checkAuth', auth, async (ctx: Context) => {
   await userController.checkAuthentication(ctx);
 });

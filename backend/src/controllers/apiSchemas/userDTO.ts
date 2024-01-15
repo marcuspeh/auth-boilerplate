@@ -1,4 +1,4 @@
-import {IsDefined, IsEmail, IsString} from 'class-validator';
+import {IsDefined, IsEmail, IsString, isString} from 'class-validator';
 
 export class registerUserDTO {
   @IsDefined()
@@ -29,6 +29,18 @@ export class updatePasswordDTO {
   @IsString()
   originalPassword: string;
 
+  @IsDefined()
+  @IsString()
+  newPassword: string;
+}
+
+export class forgetPasswordDTO {
+  @IsDefined()
+  @IsString()
+  email: string;
+}
+
+export class resetPasswordDTO {
   @IsDefined()
   @IsString()
   newPassword: string;
