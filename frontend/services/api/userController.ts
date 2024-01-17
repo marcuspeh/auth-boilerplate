@@ -64,3 +64,20 @@ export async function checkAuth(): Promise<ResponseModel> {
         return errorHelper(err)
     }
 }
+
+export async function updatePassword(originalPassword: string, newPassword: string): Promise<ResponseModel> {
+    try {
+        const result = await customAxios
+            .post("/api/user/updatePassword", {
+                originalPassword: originalPassword,
+                newPassword: newPassword,
+            })
+            
+        return {
+            isSuccess: true,
+            errorCode: ""
+        }
+    } catch (err: any) {
+        return errorHelper(err)
+    }
+}

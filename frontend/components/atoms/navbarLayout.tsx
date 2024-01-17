@@ -122,6 +122,14 @@ const NavbarLayout: React.FC<Props> = (props): JSX.Element => {
             </DrawerHeader>
             <Divider />
             <List>
+              <ListItem key={"update-password"} disablePadding>
+                <ListItemButton href={"/updatePassword"}>
+                    <ListItemIcon>
+                      <Add />
+                    </ListItemIcon>
+                    <ListItemText primary={"Update Password"} />
+                </ListItemButton>
+              </ListItem>
               <ListItem key={"logout"} disablePadding>
                 <ListItemButton onClick={logoutClick}>
                     <ListItemIcon>

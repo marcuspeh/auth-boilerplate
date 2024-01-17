@@ -56,8 +56,8 @@ const auth = async (ctx: Context, next: any) => {
   const token = ctx.cookies.get(constant.JWT_TOKEN_LABEL);
   const tokenCsrf = ctx.request.header.tonic;
 
-  validateCsrf(tokenCsrf, token);
   await validateToken(ctx, token, TOKEN_TYPE.USER_TOKEN);
+  validateCsrf(tokenCsrf, token);
 
   await next();
 };
